@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    height: 100%;
+    min-height: 99vh;
+    @apply bg-beige-100 text-grey-900;
+    padding: 36px 28px;
+    font-family: 'PublicSans';
+    max-width: 1400px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+h1,
+h2,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+}
+
+.text,
+p {
+    @apply text-grey-500;
+    font-size: 0.875rem;
+}
+
+.overviewTransactionItem:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.expenses-limit {
+    transform: translateY(18px);
+}
+
+.total-expenses {
+    font-weight: bold;
+    fill: #201f24;
+}
+
+#minimizeSidebarBtn:hover {
+
+    svg,
+    span {
+        fill: white;
+        color: white;
+    }
+}
+
+.navItem:hover {
+    color: white;
+
+    svg {
+        fill: white;
+    }
+}
