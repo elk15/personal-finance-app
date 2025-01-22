@@ -1,0 +1,28 @@
+GET http://localhost:3000/api/bills
+
+###
+POST http://localhost:3000/api/bills
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU
+
+{
+    "title": "Electricity",
+    "dueDate": "Monthly-15th",
+    "amount": 49
+}
+
+###
+PUT http://localhost:3000/api/bills/6790d9e286464922c6d1bf80
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU
+
+{
+    "title": "Electricity",
+    "dueDate": "Monthly-18th",
+    "amount": 79
+}
+
+###
+DELETE http://localhost:3000/api/bills/6790da0d86464922c6d1bf8a
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU
