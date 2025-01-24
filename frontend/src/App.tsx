@@ -5,6 +5,7 @@ import {
   Routes, Route
 } from 'react-router-dom'
 import Overview from "./pages/Overview"
+import Pots from "./pages/Pots"
 
 function App() {
   
@@ -16,7 +17,7 @@ function App() {
         <Route path="/" element={<Overview/>}/>
         <Route path="/transactions"/>
         <Route path="/budgets"/>
-        <Route path="/pots"/>
+        <Route path="/pots" element={<Pots/>}/>
         <Route path="/recurring-bills"/>
       </Routes>
     </Router>

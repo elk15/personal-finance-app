@@ -65,3 +65,9 @@ p {
         fill: white;
     }
 }
+
+.optionsPopup {
+    -webkit-box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
+    -moz-box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
+    box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
+}

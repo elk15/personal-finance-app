@@ -14,7 +14,7 @@ const NavBar = () => {
     const highlightedNavItemClasses = 'bg-beige-100 border-l-2 border-green';
 
     return (
-      <nav className={`bg-grey-900 p-5 pl-0 rounded-r-3xl text-grey-300 ${isExpanded ? 'w-[300px]' : 'w-[60px]'}
+      <nav className={`bg-grey-900 p-5 pl-0 rounded-r-3xl text-grey-300 hidden ${isExpanded ? 'w-[300px]' : 'w-[60px]'}
        h-full fixed z-10 top-0 left-0`}>
         <LogoLarge className="ml-6 mb-12 mt-5"/>
         <ul className="flex flex-col gap-3 font-semibold">
