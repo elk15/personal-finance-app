@@ -36,12 +36,6 @@ const userSchema = new mongoose.Schema({
       ref: 'Budget',
     },
   ],
-  bills: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Bill',
-    },
-  ],
 });
 
 userSchema.set('toJSON', {

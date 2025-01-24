@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const transactionSchema = new mongoose.Schema({
-    recipient: {
+    name: {
         type: String,
         required: true
     },
@@ -17,7 +17,7 @@ const transactionSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    isIncome: {
+    recurring: {
         type: Boolean,
         default: false,
     },

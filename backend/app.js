@@ -9,7 +9,6 @@ const loginRouter = require('./controllers/login')
 const potsRouter = require('./controllers/pots')
 const budgetsRouter = require('./controllers/budgets')
 const transactionsRouter = require('./controllers/transactions')
-const billsRouter = require('./controllers/bills')
 
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
@@ -38,7 +37,6 @@ app.use('/api/login', loginRouter)
 app.use('/api/pots', potsRouter)
 app.use('/api/budgets', budgetsRouter)
 app.use('/api/transactions', transactionsRouter)
-app.use('/api/bills', billsRouter)
 
 if (process.env.NODE_ENV === 'test') {
     const testingRouter = require('./controllers/testing')

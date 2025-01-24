@@ -1,5 +1,4 @@
 const Pot = require('../models/pot')
-const Bill = require('../models/bill')
 const Transaction = require('../models/transaction')
 const Budget = require('../models/budget')
 const User = require('../models/user')
@@ -18,32 +17,18 @@ const initialPots = [
     },
 ]
 
-const initialBills = [
-    {
-        title: 'Netflix',
-        dueDate: 'Monthly-12',
-        amount: 9,
-    },
-    {
-        title: 'Gym',
-        dueDate: 'Yearly-12-02',
-        amount: 220,
-    },
-]
-
 const initialTransactions = [
     {
-        recipient: 'Grocery Store',
+        name: 'Grocery Store',
         category: 'Essentials',
         date: '2024-09-23',
-        amount: 63
+        amount: -63
     },
     {
-        recipient: 'Lottery Inc',
+        name: 'Lottery Inc',
         category: 'Entertainment',
         date: '2024-10-03',
         amount: 1000,
-        isIncome: true,
     },
 ]
 
@@ -63,11 +48,6 @@ const initialBudgets = [
 const potsInDb = async () => {
     const pots = await Pot.find({})
     return pots.map(pot => pot.toJSON())
-}
-
-const billsInDb = async () => {
-    const bills = await Bill.find({})
-    return bills.map(bill => bill.toJSON())
 }
 
 const transactionsInDb = async () => {
@@ -97,18 +77,6 @@ const nonExistingPotId = async () => {
     return pot.id.toString()
 }
 
-const nonExistingBillId = async () => {
-    const bill = new Bill({
-        title: 'toremove',
-        dueDate: 'Monthly-12',
-        amount: 9,
-    })
-    await bill.save()
-    await bill.deleteOne()
-
-    return bill.id.toString()
-}
-
 const nonExistingTransactionId = async () => {
     const transaction = new Transaction({
         title: 'toremove',
@@ -135,16 +103,13 @@ const nonExistingBudgetId = async () => {
 
 module.exports = {
     initialPots,
-    initialBills,
     initialTransactions,
     initialBudgets,
     potsInDb,
-    billsInDb,
     transactionsInDb,
     budgetsInDb,
     usersInDb,
     nonExistingPotId,
-    nonExistingBillId,
     nonExistingTransactionId,
     nonExistingBudgetId
 }

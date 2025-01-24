@@ -44,7 +44,7 @@ test('all transactions are returned', async () => {
 
 test('can create a transaction', async () => {
     const newTransaction = {
-        recipient: 'Grocery Store',
+        name: 'Grocery Store',
         category: 'Essentials',
         date: '2024-09-23',
         amount: 63
@@ -62,7 +62,7 @@ test('can create a transaction', async () => {
     const transactionIds = allUsers.body[0].transactions.map(b => b.toString())
 
     expect(allTransactions.body).toHaveLength(helper.initialTransactions.length + 1)
-    expect(savedTransaction.body.recipient).toBe('Grocery Store')
+    expect(savedTransaction.body.name).toBe('Grocery Store')
     expect(savedTransaction.body.category).toBe('Essentials')
     expect(savedTransaction.body.date).toBe(new Date('2024-09-23').toISOString())
     expect(savedTransaction.body.amount).toBe(63)
@@ -71,7 +71,7 @@ test('can create a transaction', async () => {
 
 test('creating a transaction without token results in 401', async () => {
     const newTransaction = {
-        recipient: 'Grocery Store',
+        name: 'Grocery Store',
         category: 'Essentials',
         date: '2024-9-23',
         amount: 63
