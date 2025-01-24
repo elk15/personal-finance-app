@@ -20,12 +20,16 @@ billsRouter.post('/', middleware.userExtractor, async (request, response) => {
 
 billsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
     const { id } = request.params
+    const user = request.user
 
     const bill = await Bill.findById(id)
     if (!bill) return response.status(404).end()
 
-    if (bill.user.toString() === request.user.id.toString()) {
+    if (bill.user.toString() === user.id.toString()) {
         const deletedBill = await Bill.findByIdAndDelete(id)
+        user.bills = user.bills.filter(id => !id.equals(deletedBill._id))
+        await user.save()
+
         response.status(200).json(deletedBill)
     } else {
         return response.status(401).json({ error: 'User doesn\'t have permission to delete' })

@@ -20,12 +20,16 @@ potsRouter.post('/', middleware.userExtractor, async (request, response) => {
 
 potsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
     const { id } = request.params
+    const user = request.user
 
     const pot = await Pot.findById(id)
     if (!pot) return response.status(404).end()
 
     if (pot.user.toString() === request.user.id.toString()) {
         const deletedPot = await Pot.findByIdAndDelete(id)
+        user.pots = user.pots.filter(id => !id.equals(deletedPot._id))
+        await user.save()
+
         response.status(200).json(deletedPot)
     } else {
         return response.status(401).json({ error: 'User doesn\'t have permission to delete' })

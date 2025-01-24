@@ -30,6 +30,7 @@ const transactionSchema = new mongoose.Schema({
 transactionSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
+        returnedObject.date = returnedObject.date.toISOString()
         delete returnedObject._id
         delete returnedObject.__v
     }

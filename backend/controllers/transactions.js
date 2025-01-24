@@ -9,7 +9,7 @@ transactionsRouter.get('/', async (request, response) => {
 
 transactionsRouter.post('/', middleware.userExtractor, async (request, response) => {
     const user = request.user
-    const transaction = new Transaction({ ...request.body, user: user.id })
+    const transaction = new Transaction({ ...request.body, user: user.id, date: new Date(request.body.date).toISOString() })
 
     const savedTransaction = await transaction.save()
     user.transactions = user.transactions.concat(savedTransaction._id)
@@ -20,12 +20,16 @@ transactionsRouter.post('/', middleware.userExtractor, async (request, response)
 
 transactionsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
     const { id } = request.params
+    const user = request.user
 
     const transaction = await Transaction.findById(id)
     if (!transaction) return response.status(404).end()
 
     if (transaction.user.toString() === request.user.id.toString()) {
         const deletedTransaction = await Transaction.findByIdAndDelete(id)
+        user.transactions = user.transactions.filter(id => !id.equals(deletedTransaction._id))
+        await user.save()
+
         response.status(200).json(deletedTransaction)
     } else {
         return response.status(401).json({ error: 'User doesn\'t have permission to delete' })
