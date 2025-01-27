@@ -71,3 +71,11 @@ p {
     -moz-box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
     box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
 }
+
+.authImg {
+    width: 100%;
+    background-image: url(/src/assets/images/illustration-authentication.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-bottom: calc(99vh - 65px);
+}

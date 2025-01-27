@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom'
 import Overview from "./pages/Overview"
 import Pots from "./pages/Pots"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function App() {
   
@@ -19,6 +21,8 @@ function App() {
         <Route path="/budgets"/>
         <Route path="/pots" element={<Pots/>}/>
         <Route path="/recurring-bills"/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/register" element={<Register/>}/>
       </Routes>
     </Router>
   )
