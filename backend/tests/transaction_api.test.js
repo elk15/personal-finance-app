@@ -36,6 +36,7 @@ beforeEach(async () => {
 test('all transactions are returned', async () => {
     const response = await api
         .get('/api/transactions')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
@@ -57,7 +58,7 @@ test('can create a transaction', async () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
-    const allTransactions = await api.get('/api/transactions')
+    const allTransactions = await api.get('/api/transactions').set('Authorization', `Bearer ${token}`)
     const allUsers = await api.get('/api/users')
     const transactionIds = allUsers.body[0].transactions.map(b => b.toString())
 

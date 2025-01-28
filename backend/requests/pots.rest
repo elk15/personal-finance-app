@@ -6,7 +6,7 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU
 
 {
-    "name": "Savings",
+    "name": "TEST",
     "theme": "green",
     "target": 2000
 }

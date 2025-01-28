@@ -36,6 +36,7 @@ beforeEach(async () => {
 test('all pots are returned', async () => {
     const response = await api
         .get('/api/pots')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
@@ -56,7 +57,7 @@ test('can create a pot', async () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
-    const allPots = await api.get('/api/pots')
+    const allPots = await api.get('/api/pots').set('Authorization', `Bearer ${token}`)
     const allUsers = await api.get('/api/users')
     const potIds = allUsers.body[0].pots.map(b => b.toString())
 

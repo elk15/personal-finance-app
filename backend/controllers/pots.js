@@ -2,8 +2,9 @@ const potsRouter = require('express').Router()
 const Pot = require('../models/pot')
 const middleware = require('../utils/middleware')
 
-potsRouter.get('/', async (request, response) => {
-    const pots = await Pot.find({}).populate('user', { username: 1, email: 1, balance: 1 })
+potsRouter.get('/', middleware.userExtractor, async (request, response) => {
+    const { _id } = request.user
+    const pots = await Pot.find({ user: _id.toString() }).populate('user', { username: 1, email: 1, balance: 1 })
     response.json(pots)
 })
 
@@ -25,7 +26,7 @@ potsRouter.delete('/:id', middleware.userExtractor, async (request, response) =>
     const pot = await Pot.findById(id)
     if (!pot) return response.status(404).end()
 
-    if (pot.user.toString() === request.user.id.toString()) {
+    if (pot.user.toString() === user.id.toString()) {
         const deletedPot = await Pot.findByIdAndDelete(id)
         user.pots = user.pots.filter(id => !id.equals(deletedPot._id))
         await user.save()
@@ -37,11 +38,18 @@ potsRouter.delete('/:id', middleware.userExtractor, async (request, response) =>
 })
 
 potsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
-    const updatedPot = await Pot.findByIdAndUpdate(request.params.id, request.body, { new: true })
-    if (updatedPot) {
+    const { id } = request.params
+    const user = request.user
+
+    const pot = await Pot.findById(id)
+    if (!pot) return response.status(404).end()
+
+    if (pot.user.toString() === user.id.toString()) {
+        const updatedPot = await Pot.findByIdAndUpdate(id, request.body, { new: true })
         response.status(200).json(updatedPot)
+
     } else {
-        response.status(404).end()
+        return response.status(401).json({ error: 'User doesn\'t have permission to update' })
     }
 })
 

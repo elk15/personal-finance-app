@@ -36,6 +36,7 @@ beforeEach(async () => {
 test('all budgets are returned', async () => {
     const response = await api
         .get('/api/budgets')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
@@ -56,7 +57,7 @@ test('can create a budget', async () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
-    const allBudgets = await api.get('/api/budgets')
+    const allBudgets = await api.get('/api/budgets').set('Authorization', `Bearer ${token}`)
     const allUsers = await api.get('/api/users')
     const budgetIds = allUsers.body[0].budgets.map(b => b.toString())
 

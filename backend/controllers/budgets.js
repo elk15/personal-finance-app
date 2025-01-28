@@ -2,8 +2,9 @@ const budgetsRouter = require('express').Router()
 const Budget = require('../models/budget')
 const middleware = require('../utils/middleware')
 
-budgetsRouter.get('/', async (request, response) => {
-    const budgets = await Budget.find({}).populate('user', { username: 1, email: 1, balance: 1 })
+budgetsRouter.get('/', middleware.userExtractor, async (request, response) => {
+    const { _id } = request.user
+    const budgets = await Budget.find({ user: _id.toString() }).populate('user', { username: 1, email: 1, balance: 1 })
     response.json(budgets)
 })
 
@@ -25,7 +26,7 @@ budgetsRouter.delete('/:id', middleware.userExtractor, async (request, response)
     const budget = await Budget.findById(id)
     if (!budget) return response.status(404).end()
 
-    if (budget.user.toString() === request.user.id.toString()) {
+    if (budget.user.toString() === user.id.toString()) {
         const deletedBudget = await Budget.findByIdAndDelete(id)
         user.budgets = user.budgets.filter(id => !id.equals(deletedBudget._id))
         await user.save()
@@ -37,11 +38,18 @@ budgetsRouter.delete('/:id', middleware.userExtractor, async (request, response)
 })
 
 budgetsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
-    const updatedBudget = await Budget.findByIdAndUpdate(request.params.id, request.body, { new: true })
-    if (updatedBudget) {
+    const { id } = request.params
+    const user = request.user
+
+    const budget = await Budget.findById(id)
+    if (!budget) return response.status(404).end()
+
+    if (budget.user.toString() === user.id.toString()) {
+        const updatedBudget = await Budget.findByIdAndUpdate(id, request.body, { new: true })
         response.status(200).json(updatedBudget)
+
     } else {
-        response.status(404).end()
+        return response.status(401).json({ error: 'User doesn\'t have permission to update' })
     }
 })
 

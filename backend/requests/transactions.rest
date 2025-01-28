@@ -1,4 +1,7 @@
 GET http://localhost:3000/api/transactions
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU
+
 
 ###
 POST http://localhost:3000/api/transactions
@@ -6,25 +9,25 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU
 
 {
-    "recipient": "Pharmacy",
-    "category": "Other",
+    "name": "Test",
+    "category": "Test",
     "date": "2024-08-12",
     "amount": 25
 }
 
 ###
-PUT http://localhost:3000/api/transactions/6790d6c694c3c0c77a234625
+PUT http://localhost:3000/api/transactions/6799104acb9e2ee7d495aabb
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU
 
 {
-    "name": "Pharmacy",
-    "category": "Other",
+    "name": "Test",
+    "category": "Test",
     "date": "2024-08-12",
-    "amount": 15
+    "amount": 45
 }
 
 ###
-DELETE http://localhost:3000/api/transactions/6790d588940ee07e73f4b2d2
+DELETE http://localhost:3000/api/transactions/6799104acb9e2ee7d495aabb
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOiI2NzkwYzlkZGZjMGE4ZWJlYjJkNGRmNzIiLCJpYXQiOjE3Mzc1NDMwOTB9.tKtSKMtmgbcPDhQrWfYjhiJXqVUtQzX8MYf38CaEcLU

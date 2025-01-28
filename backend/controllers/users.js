@@ -1,5 +1,6 @@
 const bcryptjs = require('bcryptjs');
 const usersRouter = require('express').Router();
+const middleware = require('../utils/middleware')
 const User = require('../models/user');
 
 usersRouter.post('/', async (request, response) => {
@@ -23,12 +24,10 @@ usersRouter.post('/', async (request, response) => {
   response.status(201).json(savedUser);
 });
 
-usersRouter.patch('/', async (request, response) => {
-  const { email } = request.body;
-  if (!email) {
-    return response.status(400).json({ error: 'There is no email' })
-  }
-  const updatedUser = await User.findOneAndUpdate({ email }, request.body, { new: true })
+usersRouter.patch('/', middleware.userExtractor, async (request, response) => {
+  const { _id } = request.user
+
+  const updatedUser = await User.findByIdAndUpdate(_id, request.body, { new: true })
   if (updatedUser) {
     response.status(200).json(updatedUser)
   } else {
