@@ -13,6 +13,7 @@ interface TextInputProps {
     value: string;
     setValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isRegister?: boolean;
+    minLength?: number;
 }
 
 const TextInput = ({
@@ -24,7 +25,8 @@ const TextInput = ({
     id,
     value,
     setValue,
-    isRegister
+    isRegister,
+    minLength,
 } : TextInputProps) => {
     const maxValueLength = 30
     const [charactersLeft, setCharactersLeft] = useState<number>(maxValueLength - value.length);
@@ -41,19 +43,19 @@ const TextInput = ({
 
   return (
     <div className={`flex flex-col gap-1 relative
-    ${hasDollar && 'after:content-["$"] after:absolute after:top-[38px] after:left-[16px] after:text-grey-300'}`}>
+    ${hasDollar ? 'after:content-["$"] after:absolute after:top-[38px] after:left-[16px] after:text-grey-300' : ''}`}>
         <Label htmlFor={id}>{label}</Label>
         <input type={(type == 'password' && showPassword) ? 'text' : type} 
-        name={id} id={id} placeholder={placeholder}
+        name={id} id={id} placeholder={placeholder} required minLength={minLength}
         className={`border border-grey-300 py-3 px-4 rounded-lg focus:outline-none focus:border-grey-900
-            ${hasDollar && 'pl-9'}`}
+            ${hasDollar ? 'pl-9' : ''}`}
         value={value} onChange={handleChange} maxLength={maxValueLength}/>
         {showCharactersLeft &&
             <p className="text-right text-[12px]">{charactersLeft} characters left</p>
         }
         {type == 'password' && 
-            <button className="absolute right-4 top-[45px]" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <ShowPasswordIcon /> : <HidePasswordIcon />}
+            <button type="button" className="absolute right-4 top-[45px]" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <ShowPasswordIcon className="mt-[1px]"/> : <HidePasswordIcon />}
             </button>
         }
         {isRegister && type == 'password' && <p className="text-right text-[12px]">Passwords must be at least 8 characters</p>}
@@ -61,4 +63,4 @@ const TextInput = ({
   )
 }
 
-export default TextInput;
+export default TextInput

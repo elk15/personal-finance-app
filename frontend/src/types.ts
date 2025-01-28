@@ -22,3 +22,12 @@ export interface Pot {
   theme: Theme;
   totalSaved: number;
 }
+
+export interface Config {
+  headers: {Authorization: string}
+}
+
+export interface Credentials {
+  email: string
+  password: string
+}

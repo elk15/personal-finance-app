@@ -37,3 +37,7 @@ export const SecondaryButton = styled.button.attrs({
 export const Label = styled.label.attrs({
     className: 'font-bold text-grey-500 text-[14px]'
 })``
+
+export const ErrorText = styled.p.attrs({
+    className: 'text-red font-bold'
+})``
