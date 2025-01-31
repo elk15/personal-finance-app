@@ -14,6 +14,7 @@ const COLORS = {
     'army-green': '#7F9161',
     'gold': '#CAB361',
     'orange': '#BE6C49',
+    'grey-900': '#201f24'
 }
 
 export default COLORS;

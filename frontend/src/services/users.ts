@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Config, Credentials } from '../types'
+import { Config, Credentials, UserData } from '../types'
 
 const baseUrl = 'http://localhost:3000/api'
 
@@ -13,10 +13,7 @@ const register = async (content: {
 }
 
 const updateUser = async (
-    updatedContent: {
-    email: string
-    balance: number
-    },
+    updatedContent: UserData,
     config : Config
 ) => {
     const response = await axios.patch(`${baseUrl}/users`, updatedContent, config)

@@ -1,33 +1,33 @@
 import { useState } from "react";
 import PotCard from "../components/pots/PotCard";
 import { HeaderPreset1, PrimaryButton } from "../styled-components";
-import { Pot, Theme } from "../types";
 import PotForm from "../components/pots/PotForm";
+import { useAppSelector } from "../hooks";
 
 const Pots = () => {
+    const { data, loadingStatus } = useAppSelector((state) => state.pots)
     const [showAddNew, setShowAddNew] = useState<boolean>(false);
-    const [newPot, setNewPot] = useState<Pot>({
-      name: '',
-      target: '',
-      theme: Theme.Green,
-      totalSaved: 0,
-    })
-
-    const addNewPot = () => {
-
-    }
 
     return (
       <>
-        <div className="flex justify-between items-center">
-            <HeaderPreset1 className="mb-4">Pots</HeaderPreset1>
+        <div className="flex justify-between items-center mb-4">
+            <HeaderPreset1>Pots</HeaderPreset1>
             <PrimaryButton onClick={() => setShowAddNew(true)}>+ Add New Pot</PrimaryButton>
         </div>
-        <div className="flex flex-wrap gap-4 ">
-            <PotCard name="Savings" totalSaved={159} target="2000" theme={Theme.Green}/>
+        <div className="flex lg:flex-wrap lg:flex-row flex-col gap-4 ">
+            {loadingStatus.initializePots == 'pending' && 
+              <div className="m-auto mt-10">
+                <l-dot-wave
+                size="47"
+                speed="1"
+                color="black"
+                ></l-dot-wave>
+              </div>
+            }
+            {data.map(pot => <PotCard key={pot.id} name={pot.name} totalSaved={pot.totalSaved} target={pot.target} theme={pot.theme} id={pot.id}/>)}
         </div>
         {showAddNew &&
-          <PotForm isAddNew={true} handleConfirm={addNewPot} setShowModal={setShowAddNew} pot={newPot} setPot={setNewPot}/>
+          <PotForm isAddNew={true} setShowModal={setShowAddNew}/>
         }
       </>
     )

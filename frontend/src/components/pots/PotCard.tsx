@@ -1,64 +1,64 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import COLORS from "../../statics/colours";
 import { Card, HeaderPreset2, SecondaryButton } from "../../styled-components";
-import { Pot, Theme } from "../../types";
+import { Pot} from "../../types";
 import ModifyItemButton from "../ModifyItemButton";
 import PotForm from "./PotForm";
+import AddMoneyForm from "./AddMoneyForm";
+import SavingProgressBar from "./SavingProgressBar";
+import WithdrawMoneyForm from "./WithdrawMoneyForm";
+import DeleteConfirmation from "../DeleteConfirmation";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { getAuthHeader } from "../../utils";
+import { deletePot } from "../../reducers/potReducer";
 
-interface PotCardProps {
-    name: string;
-    target: string;
-    theme: Theme;
-    totalSaved: number;
-}
-
-const PotCard = ({name, target, theme, totalSaved} : PotCardProps) => {
+const PotCard = ({name, target, theme, totalSaved, id} : Pot) => {
     const [showEditModal, setShowEditModal] = useState<boolean>(false);
-    const [pot, setPot] = useState<Pot>({
-        name, target, theme, totalSaved
-    }) 
-    const displayDeleteModal = () => {
+    const [showAddMoneyModal, setShowAddMoneyModal] = useState<boolean>(false);
+    const [showWithdrawMoneyModal, setShowWithdrawMoneyModal] = useState<boolean>(false);
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const { userToken } = useAppSelector((state) => state.user)
+    const { loadingStatus, error } = useAppSelector((state) => state.pots)
+    const dispatch = useAppDispatch()
 
+    const handleDelete = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if (!userToken) return
+        const config = getAuthHeader(userToken)
+        dispatch(deletePot({id: pot.id, config})).then(() => {
+            setShowDeleteModal(false)
+        })
     }
 
-    const displayEditModal = () => {
-        setShowEditModal(true)
-    }
-    const editPot = () => {
-
-    }
-    const percentage = pot.totalSaved*100/parseInt(target)
     const themeStyle = { backgroundColor: COLORS[theme] }
+    const pot = {
+        id, name, target, theme, totalSaved
+    }
 
   return (
-    <Card className="max-w-[calc(50%-16px)]" $gap={'32px'}>
+    <Card className="lg:max-w-[calc(50%-16px)]" $gap={'32px'}>
         <div className="flex justify-between items-center">
             <div className="flex gap-4 items-center">
                 <div style={themeStyle} className={`rounded-full w-4 h-4`}></div>
                 <HeaderPreset2>{name}</HeaderPreset2>
             </div>
-            <ModifyItemButton name="Pot" handleDelete={displayDeleteModal} handleEdit={displayEditModal}/>
+            <ModifyItemButton name="Pot" handleDelete={() => setShowDeleteModal(true)} handleEdit={() => setShowEditModal(true)}/>
         </div>
-        <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-                <p>Total Saved</p>
-                <span className="font-bold text-[2rem]">${totalSaved.toFixed(2)}</span>
-            </div>
-            <div className="w-full bg-beige-100 h-[8px] rounded-lg">
-                <div style={themeStyle} className={`w-[7.95%] h-[8px] rounded-lg`}></div>
-            </div>
-            <div className="flex items-center justify-between">
-                <p className="font-bold">{percentage.toFixed(2)}%</p>
-                <p>Target of ${target.toLocaleString()}</p>
-            </div>
-        </div>
+        <SavingProgressBar pot={pot}/>
         <div className="flex gap-4">
-            <SecondaryButton>+ Add Money</SecondaryButton>
-            <SecondaryButton>Withdraw</SecondaryButton>
+            <SecondaryButton onClick={() => setShowAddMoneyModal(true)}>+ Add Money</SecondaryButton>
+            <SecondaryButton onClick={() => setShowWithdrawMoneyModal(true)}>Withdraw</SecondaryButton>
         </div>
-        {showEditModal &&
-        <PotForm isAddNew={false} handleConfirm={editPot} setShowModal={setShowEditModal} pot={pot} setPot={setPot}/>
-        }
+        {showEditModal && <PotForm isAddNew={false} setShowModal={setShowEditModal} pot={pot}/>}
+        {showAddMoneyModal && <AddMoneyForm setShowModal={setShowAddMoneyModal} pot={pot}/>}
+        {showWithdrawMoneyModal && <WithdrawMoneyForm setShowModal={setShowWithdrawMoneyModal} pot={pot}/>}
+        {showDeleteModal && <DeleteConfirmation 
+        title={`Delete ${pot.name}?`} 
+        setShowModal={setShowDeleteModal} 
+        handleConfirm={handleDelete} 
+        loadingStatus={loadingStatus.deletePot}
+        error={error.deletePot}
+        />}
     </Card>
   )
 }

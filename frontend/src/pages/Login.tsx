@@ -11,7 +11,7 @@ const Login = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const dispatch = useAppDispatch()
-    const { userToken, error } = useAppSelector((state) => state.user)
+    const { userToken, error: userError, loadingStatus: userLoadingStatus } = useAppSelector((state) => state.user)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -28,24 +28,37 @@ const Login = () => {
         }
     },[dispatch, navigate, userToken])
 
-    const handleAuth = (e: FormEvent<HTMLFormElement>) => {
+    const handleLogin = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(loginUser({email, password}, navigate))
+        const credentials = {
+            email, password
+        }
+        dispatch(loginUser({ credentials, navigate }))
     }
 
     const loginAsGuest = () => {
-        dispatch(loginUser({
+        const credentials = {
             email: import.meta.env.VITE_GUEST_EMAIL, 
             password: import.meta.env.VITE_GUEST_PASSWORD
-        }, navigate))
+        }
+        dispatch(loginUser({ credentials, navigate }))
     }
 
     return (
         <AuthPageTemplate>
-            <FormPopup title='Login' text=' ' buttonText='Login' handleConfirm={handleAuth} isAuthPage={true}
+            <FormPopup title='Login' text=' ' buttonText='Login' handleConfirm={handleLogin} isAuthPage={true} loading={userLoadingStatus.login}
             subtitle={
             <div className='flex flex-col mt-1 gap-6'>
-                <PrimaryButton type='button' onClick={loginAsGuest}>Login as Guest</PrimaryButton>
+                <PrimaryButton type='button' onClick={loginAsGuest}>
+                    {userLoadingStatus.login == 'pending' ? 
+                        <l-dot-wave
+                        size="47"
+                        speed="1"
+                        color="white" 
+                        ></l-dot-wave>
+                    : 'Login as Guest'
+                    }
+                </PrimaryButton>
                 <div className='flex items-center justify-center gap-1'>
                     <p>Need to create an account?</p><span className='text-black underline font-bold text-[14px]'><Link to={'/register'}>Sign Up</Link></span>
                 </div>
@@ -62,7 +75,7 @@ const Login = () => {
                     placeholder=" "
                     type="password" id="password" minLength={8}
                     value={password} setValue={e => setPassword(e.currentTarget.value)}/>
-                {error && <ErrorText>{error}</ErrorText>}
+                {userError.login && <ErrorText>{userError.login}</ErrorText>}
             </FormPopup>
         </AuthPageTemplate>
     )

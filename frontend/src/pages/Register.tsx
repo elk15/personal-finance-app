@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import AuthPageTemplate from '../components/AuthPageTemplate'
 import { setUser } from '../reducers/userReducer'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import userServices from '../services/user'
+import userServices from '../services/users'
 import { AxiosError } from 'axios'
 import { ErrorText } from '../styled-components'
 

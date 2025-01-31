@@ -11,9 +11,10 @@ interface SelectInputProps {
     isColors?: boolean;
     value: Theme;
     setValue: (theme: Theme) => void;
+    themesUsed: Theme[];
 }
 
-const SelectInput = ({options, name, isColors, value, setValue} : SelectInputProps) => {
+const SelectInput = ({options, name, isColors, value, setValue, themesUsed} : SelectInputProps) => {
     const [showOptions, setShowOptions] = useState<boolean>(false)
     const optionsRef = useRef<HTMLDivElement>(null);
     const optionsButtonRef = useRef<HTMLButtonElement>(null);
@@ -38,12 +39,12 @@ const SelectInput = ({options, name, isColors, value, setValue} : SelectInputPro
         }
     }
 
-    const renderColorDiv = (option: Theme) => {
+    const renderColorDiv = (option: Theme, isUsed?: boolean) => {
         if (!isColors) return null;
         return (
             <div 
                 style={{backgroundColor: COLORS[option]}}
-                className="w-4 h-4 rounded-full"
+                className={`w-4 h-4 rounded-full ${isUsed ? 'opacity-50' : ''}`}
             />
         );
     };
@@ -56,7 +57,7 @@ const SelectInput = ({options, name, isColors, value, setValue} : SelectInputPro
   return (
     <div className="flex flex-col gap-1 relative">
         <Label>{name}</Label>
-        <button onClick={() => setShowOptions(!showOptions)} ref={optionsButtonRef}
+        <button onClick={() => setShowOptions(!showOptions)} ref={optionsButtonRef} type="button"
         className="relative flex items-center gap-3 border border-grey-300 py-3 px-4 rounded-lg focus:outline-none focus:border-grey-900">
             {renderColorDiv(value)} 
             <span className="text-[15px]">{capitalize(value)}</span>
@@ -64,13 +65,15 @@ const SelectInput = ({options, name, isColors, value, setValue} : SelectInputPro
         </button>
         {showOptions &&
             <div ref={optionsRef} className="flex flex-col p-3 py-0 bg-white absolute optionsPopup rounded-lg w-full h-[250px] top-[80px] overflow-y-scroll">
-                {options.map((option) => 
-                    <div onClick={() => handleOptionSelect(option as Theme)}
-                    className="cursor-pointer flex items-center gap-3 p-2 py-3 border-b border-grey-100 last:border-b-0" key={option}>
-                        {renderColorDiv(option)} 
-                        <span className="text-[15px]">{capitalize(option)}</span>
+                {options.map((option) => {
+                const isUsed = themesUsed.includes(option)
+                return  <div onClick={() => handleOptionSelect(option as Theme)}
+                    className={`${isUsed ? 'pointer-events-none' : 'cursor-pointer'} flex items-center gap-3 p-2 py-3 border-b border-grey-100 last:border-b-0 relative`} key={option}>
+                        {renderColorDiv(option, isUsed)} 
+                        <span className={`text-[15px] ${isUsed ? 'text-grey-300' : ''}`}>{capitalize(option)}</span>
+                        {isUsed && <p className="absolute right-2 text-sm text-grey-300">Already used</p>}
                     </div>
-                )}
+                })}
             </div>
         }
 

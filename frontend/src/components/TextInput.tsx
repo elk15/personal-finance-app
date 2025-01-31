@@ -8,12 +8,15 @@ interface TextInputProps {
     placeholder: string;
     showCharactersLeft?: boolean;
     hasDollar?: boolean;
-    type:string;
+    type: 'password' | 'email' | 'text' | 'number';
     id: string;
     value: string;
     setValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isRegister?: boolean;
     minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
 }
 
 const TextInput = ({
@@ -26,18 +29,24 @@ const TextInput = ({
     value,
     setValue,
     isRegister,
-    minLength,
+    minLength = 1,
+    maxLength = 10,
+    min = 10,
+    max,
 } : TextInputProps) => {
-    const maxValueLength = 30
-    const [charactersLeft, setCharactersLeft] = useState<number>(maxValueLength - value.length);
+    const [charactersLeft, setCharactersLeft] = useState<number>(maxLength - value.length);
     const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    if (type == 'number' && value == '0') {
+        value = ''
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e)
 
         if (showCharactersLeft) {
             const valueLength = e.currentTarget.value.length
-            setCharactersLeft(maxValueLength - valueLength)
+            setCharactersLeft(maxLength - valueLength)
         }
     }
 
@@ -46,10 +55,10 @@ const TextInput = ({
     ${hasDollar ? 'after:content-["$"] after:absolute after:top-[38px] after:left-[16px] after:text-grey-300' : ''}`}>
         <Label htmlFor={id}>{label}</Label>
         <input type={(type == 'password' && showPassword) ? 'text' : type} 
-        name={id} id={id} placeholder={placeholder} required minLength={minLength}
+        name={id} id={id} placeholder={placeholder} required minLength={minLength} min={min} max={max}
         className={`border border-grey-300 py-3 px-4 rounded-lg focus:outline-none focus:border-grey-900
             ${hasDollar ? 'pl-9' : ''}`}
-        value={value} onChange={handleChange} maxLength={maxValueLength}/>
+        value={value} onChange={handleChange} maxLength={maxLength}/>
         {showCharactersLeft &&
             <p className="text-right text-[12px]">{charactersLeft} characters left</p>
         }
