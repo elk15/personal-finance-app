@@ -2,7 +2,7 @@ import { useState } from "react";
 import PotCard from "../components/pots/PotCard";
 import { HeaderPreset1, PrimaryButton } from "../styled-components";
 import PotForm from "../components/pots/PotForm";
-import { useAppSelector } from "../hooks";
+import { useAppSelector } from "../components/hooks/hooks";
 
 const Pots = () => {
     const { data, loadingStatus } = useAppSelector((state) => state.pots)

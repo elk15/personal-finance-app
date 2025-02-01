@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useAppDispatch, useAppSelector } from './hooks/hooks'
 import { setUser } from '../reducers/userReducer'
 
 const ProtectedRoute = () => {

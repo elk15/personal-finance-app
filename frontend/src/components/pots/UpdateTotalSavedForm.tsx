@@ -4,7 +4,7 @@ import FormPopup from "../FormPopup";
 import TextInput from "../TextInput";
 import SavingProgressBar from "./SavingProgressBar";
 import { updatePot } from "../../reducers/potReducer";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { getAuthHeader } from "../../utils";
 import { ErrorText } from "../../styled-components";
 

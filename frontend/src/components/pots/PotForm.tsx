@@ -4,7 +4,7 @@ import { Pot, Theme } from "../../types";
 import FormPopup from "../FormPopup";
 import SelectInput from "../SelectInput";
 import TextInput from "../TextInput";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { capitalize, getAuthHeader } from "../../utils";
 import { createPot, setPotsError, updatePot } from "../../reducers/potReducer";
 import { ErrorText } from "../../styled-components";

@@ -20,7 +20,7 @@ const Overview = () => {
     return (
         <>
         <HeaderPreset1 className="mb-4">Overview</HeaderPreset1>
-        <section className="flex w-full gap-6 sm:flex-row flex-col">
+        <section className="flex w-full gap-6 md:flex-row flex-col">
             <Card $secondary>
             <h3 className="text-[14px]">Current Balance</h3>
             <HeaderPreset1>$4,836.00</HeaderPreset1>

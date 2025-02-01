@@ -8,7 +8,7 @@ import AddMoneyForm from "./AddMoneyForm";
 import SavingProgressBar from "./SavingProgressBar";
 import WithdrawMoneyForm from "./WithdrawMoneyForm";
 import DeleteConfirmation from "../DeleteConfirmation";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { getAuthHeader } from "../../utils";
 import { deletePot } from "../../reducers/potReducer";
 

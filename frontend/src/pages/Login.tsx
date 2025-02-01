@@ -5,7 +5,7 @@ import TextInput from '../components/TextInput'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthPageTemplate from '../components/AuthPageTemplate'
 import { loginUser, setUser } from '../reducers/userReducer'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useAppDispatch, useAppSelector } from '../components/hooks/hooks'
 
 const Login = () => {
     const [email, setEmail] = useState<string>('');
