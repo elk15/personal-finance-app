@@ -40,7 +40,7 @@ export const Card = styled.div.attrs<CardProps>(props => ({
 `
 
 export const PrimaryButton = styled.button.attrs<PrimaryProps>(props => ({
-    className: `font-semibold text-white ${props.$delete ? 'bg-red' : 'bg-grey-900'} px-5 py-4 rounded-lg h-full hover:bg-grey-500 duration-300 sm:text-base text-sm`
+    className: `font-semibold text-white ${props.$delete ? 'bg-red' : 'bg-grey-900'} px-5 py-4 rounded-lg h-full ${props.$delete ? 'hover:opacity-75' : 'hover:bg-grey-500'} duration-300 sm:text-base text-sm`
 }))``
 
 export const SecondaryButton = styled.button.attrs({

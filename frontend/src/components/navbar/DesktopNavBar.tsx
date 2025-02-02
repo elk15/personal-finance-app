@@ -19,7 +19,7 @@ const DesktopNavBar = ()=> {
       <nav className={`bg-grey-900 pl-0 rounded-r-3xl text-grey-300 ${isExpanded ? 'w-[260px] p-5' : 'w-[80px] pt-5 pb-6 collapsed'}
        h-full fixed z-10 top-0 left-0 transition-[width] duration-300 ease-out overflow-hidden group`}>
         {isExpanded ?
-          <LogoLarge className="ml-6 mb-12 mt-5"/>
+          <LogoLarge className="ml-7 mb-12 mt-5"/>
           : <LogoSmall className="mb-12 mt-5 ml-[2rem]"/>
         }
         <div className="flex flex-col gap-3 font-semibold">

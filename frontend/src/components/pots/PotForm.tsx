@@ -99,8 +99,8 @@ const PotForm = ({isAddNew, setShowModal, pot} : PotFormProps) => {
             name="Theme"
             isColors={true}
             value={theme}
-            themesUsed={themesUsed}
-            setValue={(theme: Theme) => setTheme(theme)}/>
+            usedItems={themesUsed}
+            setValue={(theme) => setTheme(theme as Theme)}/>
     </FormPopup>
   )
 }

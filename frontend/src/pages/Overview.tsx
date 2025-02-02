@@ -1,4 +1,4 @@
-import DetailsButton from "../components/SeeMoreButton"
+import SeeMoreButton from "../components/SeeMoreButton"
 import { Card, HeaderPreset1, HeaderPreset2 } from "../styled-components"
 import TipJar from '../assets/images/ph_tip-jar-light.svg?react'
 import OverviewCategoryTag from "../components/overview/OverviewCategoryTag"
@@ -39,7 +39,7 @@ const Overview = () => {
             <Card>
                 <div className="flex justify-between items-center mb-2">
                 <HeaderPreset2>Pots</HeaderPreset2>
-                <DetailsButton/>
+                <SeeMoreButton toPage={""}/>
                 </div>
                 <div className="flex items-center gap-5">
                 <div className="bg-beige-100 p-4 rounded-lg flex items-center gap-4 w-full max-w-[250px]">
@@ -60,7 +60,7 @@ const Overview = () => {
             <Card>
                 <div className="flex justify-between items-center mb-2">
                 <HeaderPreset2>Transactions</HeaderPreset2>
-                <DetailsButton text="View All"/>
+                <SeeMoreButton text="View All" toPage={""}/>
                 </div>
                 <div >
                 <OverviewTransactionItem name="Emma Richardson" amount="75.50" date="19 Aug 2024" isIncome={true}/>
@@ -72,39 +72,39 @@ const Overview = () => {
             <Card>
                 <div className="flex justify-between items-center mb-2">
                 <HeaderPreset2>Budgets</HeaderPreset2>
-                <DetailsButton/>
+                <SeeMoreButton toPage={""}/>
                 </div>
                 <div className="h-[250px] flex">
-                <ResponsiveContainer className={'flex-[2_2_0%]'} width="99%" height="99%">
-                    <PieChart>
-                    <Pie
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        innerRadius="70%" outerRadius="100%"
-                        dataKey="value"
-                    >
-                        {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} style={{outline: 'none'}}/>
-                        ))}
-                        <Label position="centerBottom" className="total-expenses" value="$338" fontSize="32px"/>
-                        <Label position="centerTop" className="expenses-limit" value="of $975 limit"/>
-                    </Pie>
-                    </PieChart>
-                </ResponsiveContainer>
-                <div className="flex flex-col flex-1 gap-4  h-full">
-                    <OverviewCategoryTag color="border-green" name="Entertainment" amount="$50"/>
-                    <OverviewCategoryTag color="border-red" name="Bills" amount="$750"/>
-                    <OverviewCategoryTag color="border-purple" name="Dining Out" amount="$75"/>
-                    <OverviewCategoryTag color="border-army-green" name="Personal Care" amount="$100"/>
-                </div>
+                    <ResponsiveContainer className={'flex-[2_2_0%]'} width="99%" height="99%">
+                        <PieChart>
+                        <Pie
+                            data={data}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            innerRadius="70%" outerRadius="100%"
+                            dataKey="value"
+                        >
+                            {data.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} style={{outline: 'none'}}/>
+                            ))}
+                            <Label position="centerBottom" className="total-expenses" value="$338" fontSize="32px"/>
+                            <Label position="centerTop" className="expenses-limit" value="of $975 limit"/>
+                        </Pie>
+                        </PieChart>
+                    </ResponsiveContainer>
+                    <div className="flex flex-col flex-1 gap-4  h-full">
+                        <OverviewCategoryTag color="border-green" name="Entertainment" amount="$50"/>
+                        <OverviewCategoryTag color="border-red" name="Bills" amount="$750"/>
+                        <OverviewCategoryTag color="border-purple" name="Dining Out" amount="$75"/>
+                        <OverviewCategoryTag color="border-army-green" name="Personal Care" amount="$100"/>
+                    </div>
                 </div>
             </Card>
             <Card>
                 <div className="flex justify-between items-center mb-2">
                 <HeaderPreset2>Recurring Bills</HeaderPreset2>
-                <DetailsButton/>
+                <SeeMoreButton toPage={""}/>
                 </div>
                 <div className="flex flex-col gap-3">
                 <OverviewBillsItem text="Paid Bills" amount="$190.00" color="border-green"/>

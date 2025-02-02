@@ -15,6 +15,9 @@ import { useAppDispatch, useAppSelector } from "./components/hooks/hooks"
 import { getAuthHeader } from "./utils"
 import { dotWave } from 'ldrs'
 import useScreenWidth from "./components/hooks/useScreenWidth"
+import Budgets from "./pages/Budgets"
+import { initializeBudgets } from "./reducers/budgetReducer"
+import { initializeTransactions } from "./reducers/transactionReducer"
 dotWave.register()
 
 function App() {
@@ -33,6 +36,8 @@ function App() {
 
         await Promise.all([
           dispatch(initializePots(config)),
+          dispatch(initializeBudgets(config)),
+          dispatch(initializeTransactions(config)),
         ]) 
       }
     }
@@ -61,15 +66,15 @@ function App() {
     <Router>
       <GlobalFont />
       {userToken && <NavBar/>}
-      <main ref={containerRef} className="flex flex-col gap-5 w-[calc(100%-160px)]" style={{
-        marginLeft: (!isWideScreen && screenWidth > 1024) ? `${sidebarWidth}px` : 'auto',
-        marginRight: 'auto'
+      <main ref={containerRef} className="flex flex-col gap-5 lg:w-[calc(100%-160px)] w-full pb-10 sm:pb-[60px] lg:pb-0 lg:ml-auto" style={{
+        marginLeft: (!isWideScreen && screenWidth > 1024) ? `${sidebarWidth}px` : '',
+        marginRight: screenWidth > 1024 ? 'auto' : ''
       }}>
         <Routes>
           <Route element={<ProtectedRoute/>}>
             <Route path="/" element={<Overview/>}/>
             <Route path="/transactions"/>
-            <Route path="/budgets"/>
+            <Route path="/budgets" element={<Budgets/>}/>
             <Route path="/pots" element={<Pots/>}/>
             <Route path="/recurring-bills"/>
           </Route>

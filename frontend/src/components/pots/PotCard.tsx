@@ -13,10 +13,10 @@ import { getAuthHeader } from "../../utils";
 import { deletePot } from "../../reducers/potReducer";
 
 const PotCard = ({name, target, theme, totalSaved, id} : Pot) => {
-    const [showEditModal, setShowEditModal] = useState<boolean>(false);
-    const [showAddMoneyModal, setShowAddMoneyModal] = useState<boolean>(false);
-    const [showWithdrawMoneyModal, setShowWithdrawMoneyModal] = useState<boolean>(false);
-    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [showEditModal, setShowEditModal] = useState<boolean>(false)
+    const [showAddMoneyModal, setShowAddMoneyModal] = useState<boolean>(false)
+    const [showWithdrawMoneyModal, setShowWithdrawMoneyModal] = useState<boolean>(false)
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
     const { userToken } = useAppSelector((state) => state.user)
     const { loadingStatus, error } = useAppSelector((state) => state.pots)
     const dispatch = useAppDispatch()
@@ -25,7 +25,7 @@ const PotCard = ({name, target, theme, totalSaved, id} : Pot) => {
         e.preventDefault()
         if (!userToken) return
         const config = getAuthHeader(userToken)
-        dispatch(deletePot({id: pot.id, config})).then(() => {
+        dispatch(deletePot({id, config})).then(() => {
             setShowDeleteModal(false)
         })
     }
@@ -53,7 +53,8 @@ const PotCard = ({name, target, theme, totalSaved, id} : Pot) => {
         {showAddMoneyModal && <AddMoneyForm setShowModal={setShowAddMoneyModal} pot={pot}/>}
         {showWithdrawMoneyModal && <WithdrawMoneyForm setShowModal={setShowWithdrawMoneyModal} pot={pot}/>}
         {showDeleteModal && <DeleteConfirmation 
-        title={`Delete ${pot.name}?`} 
+        label="pot"
+        title={`Delete '${pot.name}'?`} 
         setShowModal={setShowDeleteModal} 
         handleConfirm={handleDelete} 
         loadingStatus={loadingStatus.deletePot}

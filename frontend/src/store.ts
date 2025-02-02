@@ -1,11 +1,15 @@
 import { AsyncThunk, configureStore } from '@reduxjs/toolkit'
 import userReducer from './reducers/userReducer'
 import potReducer from './reducers/potReducer'
+import budgetReducer from './reducers/budgetReducer'
+import transactionReducer from './reducers/transactionReducer'
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     pots: potReducer,
+    budgets: budgetReducer,
+    transactions: transactionReducer,
   }
 })
 export default store

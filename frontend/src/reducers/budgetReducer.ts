@@ -1,36 +1,36 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import potService from '../services/pots'
-import { Config, Pot, PotWithoutId } from '../types'
+import budgetService from '../services/budgets'
+import { Config, Budget, BudgetWithoutId } from '../types'
 import { ItemState } from './types'
 import { AxiosError } from 'axios'
 import { isPendingAction, getOperationName, isFulfilledAction, isRejectedAction } from '../utils'
 
 const initialState : ItemState = {
-    type: 'pots',
-    data: [] as Pot[],
+    type: 'budgets',
+    data: [] as Budget[],
     loadingStatus: {
-        initializePots: 'idle',
-        createPot: 'idle',
-        updatePot: 'idle',
-        deletePot: 'idle'
+        initializeBudgets: 'idle',
+        createBudget: 'idle',
+        updateBudget: 'idle',
+        deleteBudget: 'idle'
     },
     error: {
-        initializePots: null,
-        createPot: null,
-        updatePot: null,
-        deletePot: null
+        initializeBudgets: null,
+        createBudget: null,
+        updateBudget: null,
+        deleteBudget: null
     },
 }
 
-export const initializePots = createAsyncThunk(
-    'pots/initializePots',
+export const initializeBudgets = createAsyncThunk(
+    'budgets/initializeBudgets',
     async (
       config: Config,
       {rejectWithValue, dispatch},
     ) => {
       try {
-        const pots = await potService.getAll(config)
-        dispatch(setPots(pots))
+        const budgets = await budgetService.getAll(config)
+        dispatch(setBudgets(budgets))
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -41,15 +41,15 @@ export const initializePots = createAsyncThunk(
     }
 )
 
-export const createPot = createAsyncThunk(
-    'pots/createPot',
+export const createBudget = createAsyncThunk(
+    'budgets/createBudget',
     async (
-      {newPot, config} : {newPot: PotWithoutId, config: Config},
+      {newBudget, config} : {newBudget: BudgetWithoutId, config: Config},
       {rejectWithValue, dispatch},
     ) => {
       try {
-        const pot = await potService.create(newPot, config)
-        dispatch(appendPot(pot))
+        const budget = await budgetService.create(newBudget, config)
+        dispatch(appendBudget(budget))
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -60,15 +60,15 @@ export const createPot = createAsyncThunk(
     }
 )
 
-export const deletePot = createAsyncThunk(
-    'pots/deletePot',
+export const deleteBudget = createAsyncThunk(
+    'budgets/deleteBudget',
     async (
       {id, config} : {id: string, config: Config},
       {rejectWithValue, dispatch},
     ) => {
       try {
-        dispatch(removePot(id))
-        await potService.remove(id, config)
+        dispatch(removeBudget(id))
+        await budgetService.remove(id, config)
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -79,15 +79,15 @@ export const deletePot = createAsyncThunk(
     }
 )
 
-export const updatePot = createAsyncThunk(
-    'pots/updatePot',
+export const updateBudget = createAsyncThunk(
+    'budgets/updateBudget',
     async (
-      {updatedPot, config} : {updatedPot: Pot, config: Config},
+      {updatedBudget, config} : {updatedBudget: Budget, config: Config},
       {rejectWithValue, dispatch},
     ) => {
       try {
-        dispatch(editPot(updatedPot))
-        await potService.update(updatedPot.id, updatedPot, config)
+        dispatch(editBudget(updatedBudget))
+        await budgetService.update(updatedBudget.id, updatedBudget, config)
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -98,33 +98,33 @@ export const updatePot = createAsyncThunk(
     }
 )
 
-const potSlice = createSlice({
-    name: 'pots',
+const budgetSlice = createSlice({
+    name: 'budgets',
     initialState,
     reducers: {
-        appendPot(state, action: PayloadAction<Pot>) {    
-          if (state.type === 'pots') { 
+        appendBudget(state, action: PayloadAction<Budget>) {    
+          if (state.type === 'budgets') { 
             state.data.unshift(action.payload);
           }  
         },
-        setPots(state, action: PayloadAction<Pot[]>) {
-          if (state.type === 'pots') {
+        setBudgets(state, action: PayloadAction<Budget[]>) {
+          if (state.type === 'budgets') {
             state.data = action.payload;
           }
         },
-        removePot(state, action: PayloadAction<string>) {
-          if (state.type === 'pots') {
+        removeBudget(state, action: PayloadAction<string>) {
+          if (state.type === 'budgets') {
             state.data = state.data.filter(i => i.id !== action.payload);
           } 
         },
-        editPot(state, action: PayloadAction<Pot>) {
-          if (state.type === 'pots') {
+        editBudget(state, action: PayloadAction<Budget>) {
+          if (state.type === 'budgets') {
             state.data = state.data.map(i => 
                 i.id === action.payload.id ? action.payload : i
             );
           } 
         },
-        setPotsError(state, action: PayloadAction<{operationName: string, text: string}>) {
+        setBudgetsError(state, action: PayloadAction<{operationName: string, text: string}>) {
           state.error[action.payload.operationName] = action.payload.text
         },
     },
@@ -147,6 +147,6 @@ const potSlice = createSlice({
     }
 })
 
-export const { appendPot, setPots, removePot, editPot, setPotsError} = potSlice.actions
+export const { appendBudget, setBudgets, removeBudget, editBudget, setBudgetsError} = budgetSlice.actions
 
-export default potSlice.reducer
+export default budgetSlice.reducer

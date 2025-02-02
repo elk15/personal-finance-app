@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import userService from '../services/users'
-import { Config, Credentials, UserData, UserState } from '../types'
+import { Config, Credentials, UserData } from '../types'
 import { NavigateFunction } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import { isPendingAction, getOperationName, isFulfilledAction, isRejectedAction } from '../utils'
+import { UserState } from './types'
 
 const initialState: UserState = {
+  type: 'users',
   userInfo: null,
   userToken: null,
   balance: 0,

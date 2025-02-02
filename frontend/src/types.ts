@@ -16,6 +16,19 @@ export enum Theme {
   Orange = 'orange',
 }
 
+export enum TransactionCategory {
+  Entertainment = 'Entertainment',
+  Bills = 'Bills',
+  Groceries = 'Groceries',
+  DiningOut = 'Dining Out',
+  Transportation = 'Transportation',
+  PersonalCare = 'Personal Care',
+  Education = 'Education',
+  Lifestyle = 'Lifestyle',
+  Shopping = 'Shopping',
+  General = 'General',
+}
+
 export interface Config {
   headers: {Authorization: string}
 }
@@ -34,28 +47,6 @@ export interface UserData {
   balance: number
 }
 
-export interface UserState {
-  userInfo: UserData | null
-  userToken: string | null
-  balance: number
-  loadingStatus: {
-    [key: string]: LoadingState
-  }
-  error: {
-    [key: string]: string | null
-  }
-}
-
-export interface ItemState {
-  data: Pot[]
-  loadingStatus: {
-    [key: string]: LoadingState
-  }
-  error: {
-    [key: string]: string | null
-  }
-}
-
 export interface Pot {
   id: string;
   name: string;
@@ -65,3 +56,23 @@ export interface Pot {
 }
 
 export type PotWithoutId = Omit<Pot, 'id'>
+
+export interface Budget {
+  id: string;
+  category: TransactionCategory;
+  maxAmount: number;
+  theme: Theme;
+}
+
+export type BudgetWithoutId = Omit<Budget, 'id'>
+
+export interface Transaction {
+  id: string;
+  category: TransactionCategory;
+  name: string;
+  date: string;
+  amount: number;
+  recurring: boolean;
+}
+
+export type TransactionWithoutId = Omit<Transaction, 'id'>

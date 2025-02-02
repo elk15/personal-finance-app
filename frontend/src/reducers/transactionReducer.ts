@@ -1,36 +1,36 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import potService from '../services/pots'
-import { Config, Pot, PotWithoutId } from '../types'
+import transactionService from '../services/transactions'
+import { Config, Transaction, TransactionWithoutId } from '../types'
 import { ItemState } from './types'
 import { AxiosError } from 'axios'
 import { isPendingAction, getOperationName, isFulfilledAction, isRejectedAction } from '../utils'
 
 const initialState : ItemState = {
-    type: 'pots',
-    data: [] as Pot[],
+    type: 'transactions',
+    data: [] as Transaction[],
     loadingStatus: {
-        initializePots: 'idle',
-        createPot: 'idle',
-        updatePot: 'idle',
-        deletePot: 'idle'
+        initializeTransactions: 'idle',
+        createTransaction: 'idle',
+        updateTransaction: 'idle',
+        deleteTransaction: 'idle'
     },
     error: {
-        initializePots: null,
-        createPot: null,
-        updatePot: null,
-        deletePot: null
+        initializeTransactions: null,
+        createTransaction: null,
+        updateTransaction: null,
+        deleteTransaction: null
     },
 }
 
-export const initializePots = createAsyncThunk(
-    'pots/initializePots',
+export const initializeTransactions = createAsyncThunk(
+    'transactions/initializeTransactions',
     async (
       config: Config,
       {rejectWithValue, dispatch},
     ) => {
       try {
-        const pots = await potService.getAll(config)
-        dispatch(setPots(pots))
+        const transactions = await transactionService.getAll(config)
+        dispatch(setTransactions(transactions))
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -41,15 +41,15 @@ export const initializePots = createAsyncThunk(
     }
 )
 
-export const createPot = createAsyncThunk(
-    'pots/createPot',
+export const createTransaction = createAsyncThunk(
+    'transactions/createTransaction',
     async (
-      {newPot, config} : {newPot: PotWithoutId, config: Config},
+      {newTransaction, config} : {newTransaction: TransactionWithoutId, config: Config},
       {rejectWithValue, dispatch},
     ) => {
       try {
-        const pot = await potService.create(newPot, config)
-        dispatch(appendPot(pot))
+        const transaction = await transactionService.create(newTransaction, config)
+        dispatch(appendTransaction(transaction))
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -60,15 +60,15 @@ export const createPot = createAsyncThunk(
     }
 )
 
-export const deletePot = createAsyncThunk(
-    'pots/deletePot',
+export const deleteTransaction = createAsyncThunk(
+    'transactions/deleteTransaction',
     async (
       {id, config} : {id: string, config: Config},
       {rejectWithValue, dispatch},
     ) => {
       try {
-        dispatch(removePot(id))
-        await potService.remove(id, config)
+        dispatch(removeTransaction(id))
+        await transactionService.remove(id, config)
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -79,15 +79,15 @@ export const deletePot = createAsyncThunk(
     }
 )
 
-export const updatePot = createAsyncThunk(
-    'pots/updatePot',
+export const updateTransaction = createAsyncThunk(
+    'transactions/updateTransaction',
     async (
-      {updatedPot, config} : {updatedPot: Pot, config: Config},
+      {updatedTransaction, config} : {updatedTransaction: Transaction, config: Config},
       {rejectWithValue, dispatch},
     ) => {
       try {
-        dispatch(editPot(updatedPot))
-        await potService.update(updatedPot.id, updatedPot, config)
+        dispatch(editTransaction(updatedTransaction))
+        await transactionService.update(updatedTransaction.id, updatedTransaction, config)
   
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -98,33 +98,33 @@ export const updatePot = createAsyncThunk(
     }
 )
 
-const potSlice = createSlice({
-    name: 'pots',
+const transactionSlice = createSlice({
+    name: 'transactions',
     initialState,
     reducers: {
-        appendPot(state, action: PayloadAction<Pot>) {    
-          if (state.type === 'pots') { 
+        appendTransaction(state, action: PayloadAction<Transaction>) {    
+          if (state.type === 'transactions') { 
             state.data.unshift(action.payload);
           }  
         },
-        setPots(state, action: PayloadAction<Pot[]>) {
-          if (state.type === 'pots') {
+        setTransactions(state, action: PayloadAction<Transaction[]>) {
+          if (state.type === 'transactions') {
             state.data = action.payload;
           }
         },
-        removePot(state, action: PayloadAction<string>) {
-          if (state.type === 'pots') {
+        removeTransaction(state, action: PayloadAction<string>) {
+          if (state.type === 'transactions') {
             state.data = state.data.filter(i => i.id !== action.payload);
           } 
         },
-        editPot(state, action: PayloadAction<Pot>) {
-          if (state.type === 'pots') {
+        editTransaction(state, action: PayloadAction<Transaction>) {
+          if (state.type === 'transactions') {
             state.data = state.data.map(i => 
                 i.id === action.payload.id ? action.payload : i
             );
           } 
         },
-        setPotsError(state, action: PayloadAction<{operationName: string, text: string}>) {
+        setTransactionsError(state, action: PayloadAction<{operationName: string, text: string}>) {
           state.error[action.payload.operationName] = action.payload.text
         },
     },
@@ -147,6 +147,6 @@ const potSlice = createSlice({
     }
 })
 
-export const { appendPot, setPots, removePot, editPot, setPotsError} = potSlice.actions
+export const { appendTransaction, setTransactions, removeTransaction, editTransaction, setTransactionsError} = transactionSlice.actions
 
-export default potSlice.reducer
+export default transactionSlice.reducer

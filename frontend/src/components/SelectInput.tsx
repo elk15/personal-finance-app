@@ -3,18 +3,18 @@ import { capitalize } from "../utils";
 import CaretIcon from '../assets/images/icon-caret-down.svg?react'
 import { useEffect, useRef, useState } from "react";
 import COLORS from "../statics/colours";
-import { Theme } from "../types";
+import { Theme, TransactionCategory } from "../types";
 
 interface SelectInputProps {
-    options: Theme[];
+    options: Theme[] | TransactionCategory[];
     name: string;
     isColors?: boolean;
-    value: Theme;
-    setValue: (theme: Theme) => void;
-    themesUsed: Theme[];
+    value: Theme | TransactionCategory;
+    setValue: ((value: TransactionCategory | Theme) => void);
+    usedItems: Theme[] | TransactionCategory[];
 }
 
-const SelectInput = ({options, name, isColors, value, setValue, themesUsed} : SelectInputProps) => {
+const SelectInput = ({options, name, isColors, value, setValue, usedItems} : SelectInputProps) => {
     const [showOptions, setShowOptions] = useState<boolean>(false)
     const optionsRef = useRef<HTMLDivElement>(null);
     const optionsButtonRef = useRef<HTMLButtonElement>(null);
@@ -39,19 +39,33 @@ const SelectInput = ({options, name, isColors, value, setValue, themesUsed} : Se
         }
     }
 
-    const renderColorDiv = (option: Theme, isUsed?: boolean) => {
+    const renderColorDiv = (option: Theme | TransactionCategory, isUsed?: boolean) => {
         if (!isColors) return null;
         return (
             <div 
-                style={{backgroundColor: COLORS[option]}}
+                style={{backgroundColor: COLORS[option as Theme]}}
                 className={`w-4 h-4 rounded-full ${isUsed ? 'opacity-50' : ''}`}
             />
         );
     };
 
-    const handleOptionSelect = (option: Theme) => {
+    const handleOptionSelect = (option: Theme | TransactionCategory) => {
         setValue(option)
         setShowOptions(false)
+    }
+
+    const isOptionUsed = (option: Theme | TransactionCategory) => {
+        let result
+        let array
+
+        if (isColors) {
+            array = usedItems as Theme[]
+            result = array.includes(option as Theme)
+        } else {
+            array = usedItems as TransactionCategory[]
+            result = array.includes(option as TransactionCategory)
+        }
+        return result
     }
 
   return (
@@ -64,11 +78,11 @@ const SelectInput = ({options, name, isColors, value, setValue, themesUsed} : Se
             <span className="absolute right-4"><CaretIcon/></span>
         </button>
         {showOptions &&
-            <div ref={optionsRef} className="flex flex-col p-3 py-0 bg-white absolute optionsPopup rounded-lg w-full h-[250px] top-[80px] overflow-y-scroll">
+            <div ref={optionsRef} className="flex flex-col p-3 py-0 bg-white absolute optionsPopup rounded-lg w-full h-[250px] top-[80px] overflow-y-scroll z-10">
                 {options.map((option) => {
-                const isUsed = themesUsed.includes(option)
-                return  <div onClick={() => handleOptionSelect(option as Theme)}
-                    className={`${isUsed ? 'pointer-events-none' : 'cursor-pointer'} flex items-center gap-3 p-2 py-3 border-b border-grey-100 last:border-b-0 relative`} key={option}>
+                const isUsed = isOptionUsed(option)
+                return  <div onClick={() => handleOptionSelect(option)}
+                    className={`${isUsed ? 'pointer-events-none' : 'cursor-pointer'} flex items-center gap-3 p-2 py-3 border-b border-grey-100 last:border-b-0 relative`} key={String(option)}>
                         {renderColorDiv(option, isUsed)} 
                         <span className={`text-[15px] ${isUsed ? 'text-grey-300' : ''}`}>{capitalize(option)}</span>
                         {isUsed && <p className="absolute right-2 text-sm text-grey-300">Already used</p>}
