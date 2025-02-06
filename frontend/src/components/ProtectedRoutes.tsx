@@ -4,12 +4,12 @@ import { setUser } from '../reducers/userReducer'
 
 const ProtectedRoute = () => {
   const { userToken } = useAppSelector((state) => state.user)
-    const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   if (!userToken) {
     const userJSON = window.localStorage.getItem('loggedFinanceUser')
     if (!userJSON) {
-        return <Navigate to="/login" replace />
+      return <Navigate to="/login" replace />
     }
     const data = JSON.parse(userJSON)
     dispatch(setUser(data))

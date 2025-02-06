@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import userService from '../services/users'
-import { Config, Credentials, UserData } from '../types'
+import { Config, Credentials } from '../types'
 import { NavigateFunction } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import { isPendingAction, getOperationName, isFulfilledAction, isRejectedAction } from '../utils'
@@ -8,8 +8,8 @@ import { UserState } from './types'
 
 const initialState: UserState = {
   type: 'users',
-  userInfo: null,
   userToken: null,
+  email: '',
   balance: 0,
   loadingStatus: {
     login: 'idle',
@@ -30,7 +30,7 @@ export const loginUser = createAsyncThunk(
     try {
       const data = await userService.login(credentials)
       dispatch(setUser(data))
-      window.localStorage.setItem('loggedFinanceUser', JSON.stringify(data))
+      window.localStorage.setItem('loggedFinanceUser', JSON.stringify({token: data.token, email: data.email}))
       navigate('/')
       return data
 
@@ -43,14 +43,13 @@ export const loginUser = createAsyncThunk(
   }
 )
 
-export const updateUser = createAsyncThunk(
-  'user/update',
-  async ({updateData, config}: {updateData: UserData, config: Config }, 
+export const getBalance = createAsyncThunk(
+  'user/getBalance',
+  async ({obj, config}: {obj: {email: string, balance?: number}, config: Config }, 
     {rejectWithValue, dispatch}) => {
     try {
-      const data = await userService.updateUser(updateData, config)
-      dispatch(setUser(data))
-      window.localStorage.setItem('loggedFinanceUser', JSON.stringify(data))
+      const data = await userService.balance(obj, config)
+      dispatch(setBalance(data))
       return data
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -66,7 +65,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.userInfo = null
+      state.email = ''
       state.userToken = null
       state.balance = 0
       state.loadingStatus.login = 'idle'
@@ -84,8 +83,10 @@ const userSlice = createSlice({
       }
     },
     setUser: (state, action) => {
-      state.userInfo = action.payload
+      state.email = action.payload.email
       state.userToken = action.payload.token
+    },
+    setBalance: (state, action) => {
       state.balance = action.payload.balance
     }
   },
@@ -108,5 +109,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { logout, clearErrors, setUser } = userSlice.actions
+export const { logout, clearErrors, setUser, setBalance } = userSlice.actions
 export default userSlice.reducer

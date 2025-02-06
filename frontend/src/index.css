@@ -93,3 +93,16 @@ p {
     background-repeat: no-repeat;
     padding-bottom: calc(99vh - 65px);
 }
+
+.pay-bill::after {
+    opacity: 50%;
+    content: url(/src/assets/images/square-regular.svg);
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.pay-bill:hover:after {
+    opacity: 50%;
+    content: url(/src/assets/images/square-check-regular.svg);
+}

@@ -39,7 +39,7 @@ const DesktopNavBar = ()=> {
               <PotsIcon className="fill-grey-300 mr-6 inline-block"/> 
               <span className={nanLinkTextClasses}>Pots</span>
             </NavLink>
-            <NavLink to="/recurring-bills" className={navLinkClasses}>
+            <NavLink to="/bills" className={navLinkClasses}>
               <BillsIcon className="fill-grey-300 mr-6 inline-block"/> 
               <span className={nanLinkTextClasses}>Recurring Bills</span>
             </NavLink>

@@ -1,4 +1,4 @@
-import { LoadingState, Pot, Budget, UserData, Transaction } from "../types";
+import { LoadingState, Pot, Budget, Transaction } from "../types";
 
 interface BaseState {
     loadingStatus: {
@@ -26,8 +26,8 @@ interface BaseState {
 
   export interface UserState extends BaseState{
     type: 'users';
-    userInfo: UserData | null
     userToken: string | null
+    email: string
     balance: number
   }
   

@@ -13,16 +13,19 @@ import { useEffect, useRef, useState } from "react"
 import { initializePots } from "./reducers/potReducer"
 import { useAppDispatch, useAppSelector } from "./components/hooks/hooks"
 import { getAuthHeader } from "./utils"
-import { dotWave } from 'ldrs'
 import useScreenWidth from "./components/hooks/useScreenWidth"
 import Budgets from "./pages/Budgets"
 import { initializeBudgets } from "./reducers/budgetReducer"
 import { initializeTransactions } from "./reducers/transactionReducer"
+import { getBalance } from "./reducers/userReducer"
+import Bills from "./pages/Bills"
+
+import { dotWave } from 'ldrs'
 dotWave.register()
 
 function App() {
   const dispatch = useAppDispatch()
-  const { userToken } = useAppSelector((state) => state.user)
+  const { userToken, email } = useAppSelector((state) => state.user)
   const [isWideScreen, setIsWideScreen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const screenWidth = useScreenWidth()    
@@ -31,18 +34,19 @@ function App() {
   
   useEffect(() => {
     const fetchData = async () => {
-      if (userToken) {
+      if (userToken && email) {
         const config = getAuthHeader(userToken)
 
         await Promise.all([
           dispatch(initializePots(config)),
           dispatch(initializeBudgets(config)),
           dispatch(initializeTransactions(config)),
+          dispatch(getBalance({obj: {email}, config}))
         ]) 
       }
     }
     fetchData()
-  }, [dispatch, userToken])
+  }, [dispatch, email, userToken])
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -76,7 +80,7 @@ function App() {
             <Route path="/transactions"/>
             <Route path="/budgets" element={<Budgets/>}/>
             <Route path="/pots" element={<Pots/>}/>
-            <Route path="/recurring-bills"/>
+            <Route path="/bills" element={<Bills/>}/>
           </Route>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>

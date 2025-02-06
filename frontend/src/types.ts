@@ -40,11 +40,18 @@ export interface Credentials {
 
 export type LoadingState = 'idle' | 'pending' | 'succeeded' | 'failed'
 
-export interface UserData {
-  token?: string
+export enum SortBy {
+  Latest = 'Latest',
+  Oldest = 'Oldest',
+  AtoZ = 'A to Z',
+  ZtoA = 'Z to A',
+  Highest = 'Highest',
+  Lowest = 'Lowest'
+}
+
+export interface UpdatedUserData {
   email: string
-  name: string
-  balance: number
+  balance?: number
 }
 
 export interface Pot {

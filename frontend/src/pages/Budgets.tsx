@@ -2,47 +2,16 @@ import { useState } from "react";
 import { Card, HeaderPreset1, HeaderPreset2, PrimaryButton } from "../styled-components";
 import { useAppSelector } from "../components/hooks/hooks";
 import BudgetCard from "../components/budgets/BudgetCard";
-import { TransactionCategory } from "../types";
 import BudgetChart from "../components/BudgetChart";
-import COLORS from "../statics/colours";
 import SpendingSummaryItem from "../components/budgets/SpendingSummaryItem";
 import BudgetForm from "../components/budgets/BudgetForm";
+import useBudgetStats from "../components/hooks/useBudgetStats";
 
 const Budgets = () => {
     const { data, loadingStatus } = useAppSelector((state) => state.budgets)
-    const { loadingStatus: transactionLoadingStatus, data: transactions } = useAppSelector((state) => state.transactions)
-    const [showAddNew, setShowAddNew] = useState<boolean>(false);
-
-    const categoryColors: string[] = []
-    let totalLimit = 0
-    let totalExpenses = 0
-    let expensesPerCategory: {name: TransactionCategory, value: number}[] = []
-    const limits: number[] = []
-
-    if (loadingStatus.initializeBudgets == 'succeeded' && transactionLoadingStatus.initializeTransactions == 'succeeded') {
-        const categoriesUsed = data.map(budget => budget.category)
-        categoriesUsed.forEach(category => {
-            const expenses = transactions.reduce((sum, curr) => {
-                if (curr.category == category && curr.amount < 0) {
-                    return sum + curr.amount
-                }
-                return sum
-            }, 0)
-            expensesPerCategory.push({
-                name: category,
-                value: Math.round(Math.abs(expenses))
-            })
-        })
-    
-        expensesPerCategory = expensesPerCategory.sort((a, b) => b.value - a.value).slice(0, 4)
-        expensesPerCategory.forEach((item) => {
-            const budget = data.find(d => d.category == item.name)
-            if (budget?.theme) categoryColors.push(COLORS[budget.theme])
-            totalExpenses += item.value
-            totalLimit += budget?.maxAmount || 0
-            limits.push(budget?.maxAmount || 0)
-        })
-    }
+    const { loadingStatus: transactionLoadingStatus } = useAppSelector((state) => state.transactions)
+    const [showAddNew, setShowAddNew] = useState<boolean>(false)
+    const {categoryColors, totalLimit, totalExpenses, expensesPerCategory, limits} = useBudgetStats()
 
     return (
       <>
@@ -66,6 +35,7 @@ const Budgets = () => {
                     colors={categoryColors} 
                     limit={totalLimit}
                     totalExpenses={totalExpenses}
+                    height="50%"
                     />
                     <div>
                         <HeaderPreset2>Spending Summary</HeaderPreset2>

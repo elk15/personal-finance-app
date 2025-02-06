@@ -8,11 +8,12 @@ interface BudgetChartProps {
         name: string;
         value: number;
     }[]
+    height?: string;
 }
 
-const BudgetChart = ({totalExpenses, limit, colors, data} : BudgetChartProps) => {
+const BudgetChart = ({totalExpenses, limit, colors, data, height="99%"} : BudgetChartProps) => {
   return (
-    <ResponsiveContainer width="99%" height="50%">
+    <ResponsiveContainer width="99%" height={height}>
         <PieChart>
         <Pie
             data={data}

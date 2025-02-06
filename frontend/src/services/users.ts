@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Config, Credentials, UserData } from '../types'
+import { Config, Credentials, UpdatedUserData } from '../types'
 
 const baseUrl = 'http://localhost:3000/api'
 
@@ -12,8 +12,19 @@ const register = async (content: {
     return response.data
 }
 
+const balance = async (
+    content: {
+    email: string
+    balance?: number
+    },
+    config : Config
+) => {
+    const response = await axios.post(`${baseUrl}/users/balance`, content, config)
+    return response.data
+}
+
 const updateUser = async (
-    updatedContent: UserData,
+    updatedContent: UpdatedUserData,
     config : Config
 ) => {
     const response = await axios.patch(`${baseUrl}/users`, updatedContent, config)
@@ -26,4 +37,4 @@ const login = async (credentials: Credentials) => {
 }
 
 
-export default {register, updateUser, login}
+export default {register, updateUser, login, balance}

@@ -3,6 +3,29 @@ const usersRouter = require('express').Router();
 const middleware = require('../utils/middleware')
 const User = require('../models/user');
 
+usersRouter.post('/balance', middleware.userExtractor, async (request, response) => {
+  const { email, balance } = request.body;
+
+  if (!email) {
+    return response.status(400).json({ error: 'Email is missing' });
+  }
+  const user = await User.find({ email });
+  if (!user) {
+    response.status(404).end()
+  }
+
+  if (balance) {
+    const updatedUser = await User.findOneAndUpdate({ email }, { balance }, { new: true })
+    if (updatedUser) {
+      response.status(200).json({ balance: updatedUser.balance })
+    } else {
+      response.status(404).end()
+    }
+  } else {
+    response.status(200).json({ balance: user[0].balance });
+  }
+});
+
 usersRouter.post('/', async (request, response) => {
   const { email, name, password } = request.body;
 

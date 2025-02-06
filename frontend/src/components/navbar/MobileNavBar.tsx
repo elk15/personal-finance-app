@@ -11,7 +11,7 @@ const MobileNavBar = () => {
     
 
     return (
-      <nav className="bg-grey-900 pl-0 rounded-t-xl text-grey-300 w-[99vw] fixed z-10 bottom-0 left-0 sm:h-[80px] h-[57px]">
+      <nav className="bg-grey-900 pl-0 rounded-t-xl text-grey-300 w-[99vw] fixed z-20 bottom-0 left-0 sm:h-[80px] h-[57px]">
         <div className="flex items-end h-full">
             <NavLink to={"/"} className={navLinkClasses}>
                 <OverviewIcon className="fill-grey-300"/>
@@ -29,7 +29,7 @@ const MobileNavBar = () => {
                 <PotsIcon className="fill-grey-300"/>
                 <span className="font-bold text-sm hidden sm:block">Pots</span>
             </NavLink>
-            <NavLink to={"/recurring-bills"} className={navLinkClasses}>
+            <NavLink to={"/bills"} className={navLinkClasses}>
                 <BillsIcon className="fill-grey-300"/>
                 <span className="font-bold text-sm hidden sm:block">Recurring Bills</span>
             </NavLink>

@@ -104,7 +104,7 @@ const transactionSlice = createSlice({
     reducers: {
         appendTransaction(state, action: PayloadAction<Transaction>) {    
           if (state.type === 'transactions') { 
-            state.data.unshift(action.payload);
+            state.data.push(action.payload);
           }  
         },
         setTransactions(state, action: PayloadAction<Transaction[]>) {

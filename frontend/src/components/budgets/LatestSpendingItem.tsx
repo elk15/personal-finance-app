@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+import { formatDate } from "../../utils";
 
 interface LatestSpendingItemProps {
     name: string;
@@ -11,8 +11,8 @@ const LatestSpendingItem = ({name, date, cost} : LatestSpendingItemProps) => {
     <div className="w-full flex justify-between items-center py-3 border-b last:border-b-0">
         <span className="font-bold text-sm">{name}</span>
         <div className="flex flex-col gap-1">
-            <span className="font-bold text-sm text-right">-${Math.abs(cost)}</span>
-            <p>{DateTime.fromISO(date).toFormat('dd LLL yyyy')}</p>
+            <span className="font-bold text-sm text-right">-${Math.abs(cost).toFixed(2)}</span>
+            <p>{formatDate(date)}</p>
         </div>
     </div>
   )
