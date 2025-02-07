@@ -23,7 +23,7 @@ const BudgetChart = ({totalExpenses, limit, colors, data, height="99%"} : Budget
             innerRadius="70%" outerRadius="100%"
             dataKey="value"
         >
-            {data.map((entry, index) => (
+            {data.map((_entry, index) => (
                 <Cell key={`cell-${index}`} fill={colors[index % colors.length]} style={{outline: 'none'}}/>
                 ))}
                 <Label position="centerBottom" className="total-expenses" value={`$${totalExpenses}`} fontSize="32px"/>

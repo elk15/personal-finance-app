@@ -7,9 +7,9 @@ import SearchBox from "../components/SearchBox";
 import LeftCaretIcon from "../assets/images/icon-caret-left.svg?react"
 import RightCaretIcon from "../assets/images/icon-caret-right.svg?react"
 import { getFilterByQueryFunction, getSortByFunction } from "../utils";
-import TransactionItem from "../components/transactions/transactionItem";
 import TransactionForm from "../components/transactions/TransactionForm";
 import useScreenWidth from "../components/hooks/useScreenWidth";
+import TransactionItem from "../components/transactions/transactionItem";
 
 const Transactions = () => {
     const { loadingStatus, data } = useAppSelector((state) => state.transactions)
