@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Config, Transaction, TransactionWithoutId } from '../types'
+import { getBaseUrl } from '../utils'
 
-const baseUrl = 'http://localhost:3000/api/transactions'
+const baseUrl = `${getBaseUrl()}/api/transactions`
 
 const getAll = async (config: Config) => {
     const response = await axios.get<Transaction[]>(baseUrl, config)

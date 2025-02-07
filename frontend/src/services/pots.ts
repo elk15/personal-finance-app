@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Config, Pot, PotWithoutId } from '../types'
+import { getBaseUrl } from '../utils'
 
-const baseUrl = 'http://localhost:3000/api/pots'
+const baseUrl = `${getBaseUrl()}/api/pots`
 
 const getAll = async (config: Config) => {
     const response = await axios.get<Pot[]>(baseUrl, config)

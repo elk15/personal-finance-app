@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Config, Budget, BudgetWithoutId } from '../types'
+import { getBaseUrl } from '../utils'
 
-const baseUrl = 'http://localhost:3000/api/budgets'
+const baseUrl = `${getBaseUrl()}/api/budgets`
 
 const getAll = async (config: Config) => {
     const response = await axios.get<Budget[]>(baseUrl, config)

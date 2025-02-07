@@ -94,3 +94,11 @@ export const getFilterByQueryFunction = (query: string) => {
     }
   )
 }
+
+export const getBaseUrl = () => {
+  if (import.meta.env.MODE === 'development') {
+    return import.meta.env.VITE_DEV_SERVER_URL
+  } else {
+    return import.meta.env.VITE_SERVER_URL
+  }
+}

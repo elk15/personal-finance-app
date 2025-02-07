@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Config, Credentials, UpdatedUserData } from '../types'
+import { getBaseUrl } from '../utils'
 
-const baseUrl = 'http://localhost:3000/api'
+const baseUrl = `${getBaseUrl()}/api`
 
 const register = async (content: {
     email: string
