@@ -7,6 +7,7 @@ import { updatePot } from "../../reducers/potReducer";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { getAuthHeader } from "../../utils";
 import { ErrorText } from "../../styled-components";
+import { getBalance } from "../../reducers/userReducer";
 
 interface UpdateTotalSavedFormProps {
     pot: Pot;
@@ -19,7 +20,7 @@ interface UpdateTotalSavedFormProps {
 const UpdateTotalSavedForm = ({pot, setShowModal, maxAmount, defaultAmount, isWithdraw = false} : UpdateTotalSavedFormProps) => {
     const [amount, setAmount] = useState<number>(Math.min(defaultAmount, maxAmount))
     const dispatch = useAppDispatch()
-    const { userToken } = useAppSelector((state) => state.user)
+    const { userToken, balance, email } = useAppSelector((state) => state.user)
     const { loadingStatus, error } = useAppSelector((state) => state.pots)
 
     const handleSetValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +39,11 @@ const UpdateTotalSavedForm = ({pot, setShowModal, maxAmount, defaultAmount, isWi
         }
             
         dispatch(updatePot({updatedPot, config})).then(() => {
+            const obj = {
+                email,
+                balance: isWithdraw ? balance + amount : balance - amount
+            }
+            dispatch(getBalance({obj, config}))
             setShowModal(false)
         })
     }

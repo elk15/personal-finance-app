@@ -8,6 +8,7 @@ import { getAuthHeader } from "../../utils";
 import { createTransaction, setTransactionsError, updateTransaction } from "../../reducers/transactionReducer";
 import { ErrorText, Label } from "../../styled-components";
 import { DateTime } from "luxon";
+import { getBalance } from "../../reducers/userReducer";
 
 interface TransactionFormProps {
     isAddNew: boolean;
@@ -22,7 +23,7 @@ const TransactionForm = ({isAddNew, setShowModal, transaction} : TransactionForm
     const [date, setDate] = useState<string>(DateTime.now().toISO().split('T')[0])
     const [recurring, setRecurring] = useState<boolean>(false)
     const dispatch = useAppDispatch()
-    const { userToken } = useAppSelector((state) => state.user)
+    const { userToken, email, balance } = useAppSelector((state) => state.user)
     const { loadingStatus, error } = useAppSelector((state) => state.transactions)
 
     useEffect(() => {
@@ -51,6 +52,11 @@ const TransactionForm = ({isAddNew, setShowModal, transaction} : TransactionForm
           name, category, amount, date, recurring
         }
         dispatch(createTransaction({newTransaction, config})).then(() => {
+          const obj = {
+            email,
+            balance: balance + newTransaction.amount
+          }
+          dispatch(getBalance({obj, config}))
           setShowModal(false)
         })
 

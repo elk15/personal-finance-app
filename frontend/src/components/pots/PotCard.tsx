@@ -11,13 +11,14 @@ import DeleteConfirmation from "../DeleteConfirmation";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { getAuthHeader } from "../../utils";
 import { deletePot } from "../../reducers/potReducer";
+import { getBalance } from "../../reducers/userReducer";
 
 const PotCard = ({name, target, theme, totalSaved, id} : Pot) => {
     const [showEditModal, setShowEditModal] = useState<boolean>(false)
     const [showAddMoneyModal, setShowAddMoneyModal] = useState<boolean>(false)
     const [showWithdrawMoneyModal, setShowWithdrawMoneyModal] = useState<boolean>(false)
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
-    const { userToken } = useAppSelector((state) => state.user)
+    const { userToken, email, balance } = useAppSelector((state) => state.user)
     const { loadingStatus, error } = useAppSelector((state) => state.pots)
     const dispatch = useAppDispatch()
 
@@ -26,6 +27,11 @@ const PotCard = ({name, target, theme, totalSaved, id} : Pot) => {
         if (!userToken) return
         const config = getAuthHeader(userToken)
         dispatch(deletePot({id, config})).then(() => {
+            const obj = {
+                email,
+                balance: balance + totalSaved
+            }
+            dispatch(getBalance({obj, config}))
             setShowDeleteModal(false)
         })
     }

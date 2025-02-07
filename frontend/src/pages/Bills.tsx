@@ -10,12 +10,13 @@ import { SortBy, TransactionWithoutId } from "../types";
 import Dropdown from "../components/Dropdown";
 import SearchBox from "../components/SearchBox";
 import { getAuthHeader, getFilterByQueryFunction, getSortByFunction } from "../utils";
+import { getBalance } from "../reducers/userReducer";
 
 const Bills = () => {
     const { loadingStatus } = useAppSelector((state) => state.transactions)
     const [sortBy, setSortBy] = useState<SortBy>(SortBy.Oldest)
     const [query, setQuery] = useState<string>('')
-    const { userToken } = useAppSelector((state) => state.user)
+    const { userToken, email, balance } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
     const {
         paidBills, 
@@ -48,7 +49,13 @@ const Bills = () => {
             dispatch(createTransaction({
                 newTransaction,
                 config
-            }))
+            })).then(() => {
+                const obj = {
+                    email,
+                    balance: balance + newTransaction.amount
+                }
+                dispatch(getBalance({obj, config}))
+            })
         }
     }
 

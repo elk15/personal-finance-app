@@ -7,11 +7,12 @@ import { deleteTransaction } from "../../reducers/transactionReducer"
 import TransactionForm from "./TransactionForm"
 import DeleteConfirmation from "../DeleteConfirmation"
 import useScreenWidth from "../hooks/useScreenWidth"
+import { getBalance } from "../../reducers/userReducer"
 
 const TransactionItem = ({ name, category, amount, date, id, recurring } : Transaction) => {
     const [showEditModal, setShowEditModal] = useState<boolean>(false)
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
-    const { userToken } = useAppSelector((state) => state.user)
+    const { userToken, balance, email } = useAppSelector((state) => state.user)
     const { loadingStatus, error } = useAppSelector((state) => state.transactions)
     const dispatch = useAppDispatch()
     const screenWidth = useScreenWidth()    
@@ -21,6 +22,11 @@ const TransactionItem = ({ name, category, amount, date, id, recurring } : Trans
         if (!userToken) return
             const config = getAuthHeader(userToken)
             dispatch(deleteTransaction({id, config})).then(() => {
+                const obj = {
+                    email,
+                    balance: balance - amount
+                }
+                dispatch(getBalance({obj, config}))
                 setShowDeleteModal(false)
             })
     }
@@ -37,8 +43,9 @@ const TransactionItem = ({ name, category, amount, date, id, recurring } : Trans
                 <ModifyItemButton 
                     name="Transaction" 
                     width="186px"
-                    yPosition="60px"
+                    yPosition="32px"
                     xPosition="-7px"
+                    showEdit={false}
                     handleDelete={() => setShowDeleteModal(true)} 
                     handleEdit={() => setShowEditModal(true)}
                 />

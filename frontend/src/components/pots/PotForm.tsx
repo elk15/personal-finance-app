@@ -55,7 +55,7 @@ const PotForm = ({isAddNew, setShowModal, pot} : PotFormProps) => {
         })
 
       } else {
-        if (pot?.id) {
+        if (pot) {
           const updatedPot = {
             name, target, theme, id: pot.id, totalSaved: pot.totalSaved
           }
