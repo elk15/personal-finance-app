@@ -93,7 +93,7 @@ const PotForm = ({isAddNew, setShowModal, pot} : PotFormProps) => {
             hasDollar={true} 
             placeholder="e.g. 2000"
             type="number" id="pot-target"
-            value={target.toString()} setValue={e => setTarget( parseInt(e.currentTarget.value))}/>
+            value={target.toString()} setValue={e => setTarget( parseFloat(e.currentTarget.value))}/>
             <SelectInput 
             options={Object.keys(COLORS) as Theme[]}
             name="Theme"

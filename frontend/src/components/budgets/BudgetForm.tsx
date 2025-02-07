@@ -99,7 +99,7 @@ const BudgetForm = ({isAddNew, setShowModal, budget} : BudgetFormProps) => {
             hasDollar={true} 
             placeholder="e.g. 2000"
             type="number" id="budget-max"
-            value={maxAmount.toString()} setValue={e => setMaxAmount( parseInt(e.currentTarget.value))}/>
+            value={maxAmount.toString()} setValue={e => setMaxAmount( parseFloat(e.currentTarget.value))}/>
             <SelectInput 
             options={Object.values(Theme)}
             name="Theme"

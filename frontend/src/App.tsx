@@ -21,6 +21,7 @@ import { getBalance } from "./reducers/userReducer"
 import Bills from "./pages/Bills"
 
 import { dotWave } from 'ldrs'
+import Transactions from "./pages/Transactions"
 dotWave.register()
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoute/>}>
             <Route path="/" element={<Overview/>}/>
-            <Route path="/transactions"/>
+            <Route path="/transactions" element={<Transactions/>}/>
             <Route path="/budgets" element={<Budgets/>}/>
             <Route path="/pots" element={<Pots/>}/>
             <Route path="/bills" element={<Bills/>}/>

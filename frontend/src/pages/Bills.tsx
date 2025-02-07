@@ -9,7 +9,7 @@ import { createTransaction } from "../reducers/transactionReducer";
 import { SortBy, TransactionWithoutId } from "../types";
 import Dropdown from "../components/Dropdown";
 import SearchBox from "../components/SearchBox";
-import { getAuthHeader } from "../utils";
+import { getAuthHeader, getFilterByQueryFunction, getSortByFunction } from "../utils";
 
 const Bills = () => {
     const { loadingStatus } = useAppSelector((state) => state.transactions)
@@ -28,38 +28,9 @@ const Bills = () => {
     } = useBillStats()
 
     const sortedBills = useMemo(() => 
-        [...bills].sort((a, b) => {
-            let result
-            const firstDate = DateTime.fromISO(a.date)
-            const secondDate = DateTime.fromISO(b.date)
-
-            switch(sortBy) {
-                case SortBy.Oldest:
-                    result = firstDate.get('day') - secondDate.get('day')
-                    break
-                case SortBy.Latest:
-                    result =  secondDate.get('day') - firstDate.get('day')
-                    break
-                case SortBy.AtoZ:
-                    result = a.name.localeCompare(b.name)
-                    break
-                case SortBy.ZtoA:
-                    result = b.name.localeCompare(a.name)
-                    break
-                case SortBy.Highest:
-                    result = a.amount - b.amount
-                    break
-                case SortBy.Lowest:
-                    result = b.amount - a.amount
-                    break
-            }
-            return result;
-        }).filter(bill => {
-            if (query.length > 2) {
-                return bill.name.toLowerCase().includes(query.toLocaleLowerCase())
-            }
-            return true
-        })
+        [...bills]
+        .filter(getFilterByQueryFunction(query))
+        .sort(getSortByFunction(sortBy, true))
     , [bills, query, sortBy]);
 
     const handlePayBill = (name: string) => {
@@ -128,7 +99,7 @@ const Bills = () => {
                         <SearchBox value={query} setValue={(e) => setQuery(e.currentTarget.value)}/>
                         <Dropdown options={Object.values(SortBy)} value={sortBy} setValue={(value) => setSortBy(value as SortBy)} />
                     </div>
-                    <div className="flex p-2">
+                    <div className="sm:flex hidden p-2">
                         <p className="flex-[3] max-w-[420px]">Bill Title</p>
                         <p className="flex-1">Due Date</p>
                         <p className="flex-1 text-right">Amount</p>

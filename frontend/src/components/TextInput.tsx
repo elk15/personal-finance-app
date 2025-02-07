@@ -8,7 +8,7 @@ interface TextInputProps {
     placeholder: string;
     showCharactersLeft?: boolean;
     hasDollar?: boolean;
-    type: 'password' | 'email' | 'text' | 'number';
+    type: 'password' | 'email' | 'text' | 'number' | 'date';
     id: string;
     value: string;
     setValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -54,7 +54,7 @@ const TextInput = ({
     <div className={`flex flex-col gap-1 relative
     ${hasDollar ? 'after:content-["$"] after:absolute after:top-[38px] after:left-[16px] after:text-grey-300' : ''}`}>
         <Label htmlFor={id}>{label}</Label>
-        <input type={(type == 'password' && showPassword) ? 'text' : type} 
+        <input type={(type == 'password' && showPassword) ? 'text' : type} step="0.01"
         name={id} id={id} placeholder={placeholder} required minLength={minLength} min={min} max={max}
         className={`border border-grey-300 py-3 px-4 rounded-lg focus:outline-none focus:border-grey-900
             ${hasDollar ? 'pl-9' : ''}`}

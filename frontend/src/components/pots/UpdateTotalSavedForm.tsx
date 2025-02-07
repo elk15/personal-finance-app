@@ -23,7 +23,7 @@ const UpdateTotalSavedForm = ({pot, setShowModal, maxAmount, defaultAmount, isWi
     const { loadingStatus, error } = useAppSelector((state) => state.pots)
 
     const handleSetValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(e.currentTarget.value)
+        const value = parseFloat(e.currentTarget.value)
         setAmount(Math.min(value, maxAmount))
     }
 

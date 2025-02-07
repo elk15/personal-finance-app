@@ -11,7 +11,7 @@ interface SelectInputProps {
     isColors?: boolean;
     value: Theme | TransactionCategory;
     setValue: ((value: TransactionCategory | Theme) => void);
-    usedItems: Theme[] | TransactionCategory[];
+    usedItems?: Theme[] | TransactionCategory[];
 }
 
 const SelectInput = ({options, name, isColors, value, setValue, usedItems} : SelectInputProps) => {
@@ -55,6 +55,7 @@ const SelectInput = ({options, name, isColors, value, setValue, usedItems} : Sel
     }
 
     const isOptionUsed = (option: Theme | TransactionCategory) => {
+        if (!usedItems) return
         let result
         let array
 

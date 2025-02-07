@@ -10,6 +10,10 @@ interface PrimaryProps {
     $delete?: boolean
 }
 
+interface PaginationButton {
+    $active?: boolean
+}
+
 export const HeaderPreset1 = styled.h1`
     font-size: 2rem;
     line-height: 120%;
@@ -54,3 +58,13 @@ export const Label = styled.label.attrs({
 export const ErrorText = styled.p.attrs({
     className: 'text-red font-bold sm:text-base text-sm'
 })``
+
+export const PaginationButton = styled.button.attrs<PaginationButton>(props => ({
+    className: `border fill-grey-500 p-2 px-4 rounded-lg text-sm flex items-center gap-3
+    transition-all ${props.$active ? 'bg-grey-900 text-white border-grey-900' : 'border-grey-300 hover:bg-grey-300 hover:text-white'}
+    `
+}))`
+    &:hover svg{
+        fill: white;
+    }
+`

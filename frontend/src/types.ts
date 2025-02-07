@@ -29,6 +29,12 @@ export enum TransactionCategory {
   General = 'General',
 }
 
+export enum AllTransactions {
+  AllTransactions = 'All transactions'
+}
+
+export type CategoryDropdownOption = TransactionCategory | AllTransactions
+
 export interface Config {
   headers: {Authorization: string}
 }

@@ -39,7 +39,7 @@ const UpdateBalaceForm = ({setShowModal} : UpdateBalaceFormProps) => {
             hasDollar={true} 
             placeholder=" "
             type="number" id="balance"
-            value={balance.toString()} setValue={e => setBalance( parseInt(e.currentTarget.value))}/>
+            value={balance.toString()} setValue={e => setBalance( parseFloat(e.currentTarget.value))}/>
     </FormPopup>
   )
 }
