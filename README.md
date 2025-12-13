@@ -16,12 +16,6 @@
 
 Try the live application: [Personal Money Manager](https://personal-money-manager.netlify.app)
 
-### 👤 Guest Account
-```
-Email: test@email.com
-Password: test1234!
-```
-
 ## 🛠️ Built With
 
 ### Frontend
@@ -64,15 +58,12 @@ Password: test1234!
 
 3. Create `.env` file in the frontend directory
    ```env
-   VITE_GUEST_EMAIL=test@email.com
-   VITE_GUEST_PASSWORD=test1234!
    VITE_SERVER_URL=https://personal-finance-app-production-73df.up.railway.app
    VITE_DEV_SERVER_URL=http://localhost:3000
    ```
 
 ## 🚀 Usage
 
-### Running Frontend
 Development mode:
 ```sh
 cd frontend
@@ -91,23 +82,6 @@ Then open http://localhost:5173 in your browser.
 | `npm run build` | Build for production |
 | `npm run lint` | Run ESLint |
 | `npm run preview` | Preview production build |
-
-### Backend Scripts
-| Command | Description |
-|---------|-------------|
-| `npm start` | Start production server |
-| `npm run dev` | Start development server with nodemon |
-| `npm run lint` | Run ESLint |
-| `npm test` | Run tests |
-| `npm run start:test` | Start server in test mode |
-
-## 🧪 Testing
-
-Backend tests can be run with:
-```sh
-cd backend
-npm test
-```
 
 ## 👤 Author
 
@@ -128,3 +102,4 @@ Contributions, issues, and feature requests are welcome!
 ## ⭐️ Show your support
 
 Give a ⭐️ if this project helped you!
+
