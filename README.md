@@ -2,7 +2,7 @@
 
 A modern, full-stack personal finance application that helps users manage budgets, track expenses, and monitor bills. Built with React, TypeScript, and Supabase.
 
-![Finance Tracker Demo](https://personal-finance-app-alpha-wheat.vercel.app)
+[Finance Tracker Demo](https://personal-finance-app-alpha-wheat.vercel.app)
 
 <img width="1920" height="1079" alt="image" src="https://github.com/user-attachments/assets/b2683252-a299-4420-8ead-2d2c578b9d9b" />
 
@@ -148,5 +148,6 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 ⭐ **If you found this project useful, please consider giving it a star!**
+
 
 
