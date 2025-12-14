@@ -1,0 +1,98 @@
+import GlobalFont from "./globalFont"
+import NavBar from "./components/navbar/NavBar"
+import {
+  BrowserRouter as Router,
+  Routes, Route,
+} from 'react-router-dom'
+import Overview from "./pages/Overview"
+import Pots from "./pages/Pots"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
+import ProtectedRoute from "./components/ProtectedRoutes"
+import { useEffect, useRef, useState } from "react"
+import { initializePots } from "./reducers/potReducer"
+import { useAppDispatch } from "./components/hooks/hooks"
+import useScreenWidth from "./components/hooks/useScreenWidth"
+import Budgets from "./pages/Budgets"
+import { initializeBudgets } from "./reducers/budgetReducer"
+import { initializeTransactions } from "./reducers/transactionReducer"
+import Bills from "./pages/Bills"
+import { useAuth } from "./contexts/AuthContext"
+import { dotWave } from 'ldrs'
+import Transactions from "./pages/Transactions"
+import NotFound from "./pages/NotFound"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+dotWave.register()
+
+function App() {
+  const {user, loading, isGuest} = useAuth();
+  const dispatch = useAppDispatch()
+  const [isWideScreen, setIsWideScreen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const screenWidth = useScreenWidth()    
+  const maxContentWidth = 1400
+  const sidebarWidth = 260
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user && !loading) {
+        await Promise.all([
+          dispatch(initializePots({isGuest})),
+          dispatch(initializeBudgets({isGuest})),
+          dispatch(initializeTransactions({isGuest})),
+        ]) 
+      }
+    }
+    fetchData()
+  }, [dispatch, user, loading])
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      // Calculate if screen can fit both sidebar and max content width
+      const canFitBoth =screenWidth >= (sidebarWidth + maxContentWidth) + (screenWidth - maxContentWidth)/2;
+      setIsWideScreen(canFitBoth);
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Add resize listener
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, [screenWidth]);
+  
+  return (
+    <Router>
+      <GlobalFont />
+      {user && <NavBar/>}
+      <main ref={containerRef} className="flex flex-col gap-5 lg:w-[calc(100%-160px)] w-full sm:pb-[80px] pb-[60px] lg:pb-0 lg:ml-auto" style={{
+        marginLeft: (!isWideScreen && screenWidth > 1024) ? `${sidebarWidth}px` : '',
+        marginRight: screenWidth > 1024 ? 'auto' : ''
+      }}>
+        <Routes>
+          <Route element={<ProtectedRoute/>}>
+            <Route path="/" element={<Overview/>}/>
+            <Route path="/transactions" element={<Transactions/>}/>
+            <Route path="/budgets" element={<Budgets/>}/>
+            <Route path="/pots" element={<Pots/>}/>
+            <Route path="/bills" element={<Bills/>}/>
+          </Route>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="*" element={<NotFound/>}/>
+        </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          style={{ zIndex: 9999 }}
+        />
+      </main>
+    </Router>
+  )
+}
+
+export default App

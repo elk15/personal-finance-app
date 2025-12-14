@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    height: 100%;
+    min-height: 99vh;
+    @apply bg-beige-100 text-grey-900;
+    padding: 36px 28px;
+    font-family: 'PublicSans';
+    max-width: 1400px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    padding-bottom: 0px;
+}
+
+#root {
+    display: flex;
+    width: 100%;
+}
+
+h1,
+h2,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+}
+
+nav.collapsed~main {
+    margin-left: auto !important;
+}
+
+.text,
+p {
+    @apply text-grey-500;
+    font-size: 0.875rem;
+}
+
+.overviewTransactionItem:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.expenses-limit {
+    transform: translateY(18px);
+}
+
+.total-expenses {
+    font-weight: bold;
+    fill: #201f24;
+}
+
+#minimizeSidebarBtn:hover {
+
+    svg,
+    span {
+        fill: white;
+        color: white;
+    }
+}
+
+.navItem.active {
+    @apply bg-beige-100 lg:border-l-4 lg:border-b-0 border-b-4 border-green text-grey-900 font-bold;
+}
+
+.navItem.active svg {
+    @apply fill-green;
+}
+
+.navItem.active.collapsed svg {
+    @apply fill-grey-900;
+}
+
+.navItem:not(.active):hover {
+    color: white;
+
+    svg {
+        fill: white;
+    }
+}
+
+.optionsPopup {
+    -webkit-box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
+    -moz-box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
+    box-shadow: -1px -1px 19px -4px rgba(150, 150, 150, 0.66);
+}
+
+.authImg {
+    width: 100%;
+    background-image: url(/src/assets/images/illustration-authentication.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-bottom: calc(99vh - 65px);
+}
+
+.pay-bill::after {
+    opacity: 50%;
+    content: url(/src/assets/images/square-regular.svg);
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.pay-bill:hover:after {
+    opacity: 50%;
+    content: url(/src/assets/images/square-check-regular.svg);
+}
+.overviewGraphs .recharts-responsive-container {
+    width: 350px !important;
+    height: 250px !important;
+    flex: 1;
+}
+
+@media (max-width: 640px) { 
+    .overviewGraphs .recharts-responsive-container {
+        width: 100% !important;
+        flex: unset;
+    }
+}
